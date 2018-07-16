@@ -1,4 +1,4 @@
-package br.com.trab3.trab3.ronaldo.vinicius.victor;
+package br.com.trab3;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "PrincipalServlet", urlPatterns = {"/index.html", 
-    "/usuario-novo.html", "/login.html", "/logout.html",
-    "/item-novo.html", "/item-editar.html", "/item-listar.html", "/item-excluir.html"})
+    "/usuario-novo.html", "/usuario-dados.html", "/login.html", "/logout.html", "/meus-comentarios.html", "/a-avaliar.html", "/trolls.html", "/curadores.html",
+    "/item-novo.html", "/item-editar.html", "/item-listar.html", "/item-excluir.html", "/item.html", "/item-comentarios.html", 
+    "/comentar.html", "/comentario-excluir.html",
+    "/avaliar.html",
+    "/ranking.html"})
 public class PrincipalServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -25,17 +28,32 @@ public class PrincipalServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<String, String> rotas = new HashMap<>();
 
-        rotas.put("/index.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.IndexCommand");
+        rotas.put("/index.html", "br.com.trab3.IndexCommand");
         
-        rotas.put("/usuario-novo.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.UsuarioNovoCommand");
-        rotas.put("/login.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.LoginCommand");
-        rotas.put("/logout.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.LogoutCommand");
+        rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommand");
+        rotas.put("/usuario-dados.html", "br.com.trab3.usuario.UsuarioDadosCommand");
+        rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommand");
+        rotas.put("/logout.html", "br.com.trab3.usuario.UsuarioLogoutCommand");
+        rotas.put("/meus-comentarios.html", "br.com.trab3.usuario.UsuarioLMeusComentariosCommand");
+        rotas.put("/a-avaliar.html", "br.com.trab3.usuario.UsuarioAvaliacoesPendentesCommand");
+        rotas.put("/trolls.html", "br.com.trab3.usuario.UsuariosTrollsCommand");
+        rotas.put("/curadores.html", "br.com.trab3.usuario.UsuariosCuradoresCommand");
         
-        rotas.put("/item-novo.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.ItemNovoCommand");
-        rotas.put("/item-editar.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.ItemEditarCommand");
-        rotas.put("/item-listar.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.ItemListarCommand");
-        rotas.put("/item-excluir.html", "br.com.trab3.trab3.ronaldo.vinicius.victor.ItemExcluirCommand");
+        rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommand");
+        rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommand");
+        rotas.put("/item-listar.html", "br.com.trab3.item.ItemListarCommand");
+        rotas.put("/item-excluir.html", "br.com.trab3.item.ItemExcluirCommand");
+        rotas.put("/item.html", "br.com.trab3.item.ItemDetalhesCommand");
+        rotas.put("/item-comentarios.html", "br.com.trab3.item.ItemComentariosCommand");
+        rotas.put("/ranking.html", "br.com.trab3.item.ItemRankingCommand");
 
+        rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommand");
+        rotas.put("/comentario-excluir.html", "br.com.trab3.comentario.ComentarioExcluirCommand");
+        
+        rotas.put("/avaliar.html", "br.com.trab3.outros.AvaliarCommand");
+        
+        
+        
         String clazzName = rotas.get(request.getServletPath());
         try {
             Comando comando = (Comando) Class.forName(clazzName).newInstance();

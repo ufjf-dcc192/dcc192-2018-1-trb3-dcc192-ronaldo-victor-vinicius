@@ -1,4 +1,4 @@
-package br.com.trab3.trab3.ronaldo.vinicius.victor;
+package br.com.trab3.modelos;
 
 public class Usuario {
     private Integer id;

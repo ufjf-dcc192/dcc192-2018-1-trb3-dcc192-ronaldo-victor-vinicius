@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.com.trab3.trab3.ronaldo.vinicius.victor;
+package br.com.trab3;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

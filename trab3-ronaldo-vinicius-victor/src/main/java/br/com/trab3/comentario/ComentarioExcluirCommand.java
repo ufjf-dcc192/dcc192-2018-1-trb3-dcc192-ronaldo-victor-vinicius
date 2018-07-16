@@ -1,17 +1,16 @@
-package br.com.trab3.trab3.ronaldo.vinicius.victor;
+package br.com.trab3.comentario;
 
+import br.com.trab3.Comando;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class LoginCommand implements Comando {
+public class ComentarioExcluirCommand implements Comando {
 
     @Override
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/usuario/login.jsp");
-        request.setAttribute("titulo", "Login");
-        dispacher.forward(request, response);
+        
     }
 }
