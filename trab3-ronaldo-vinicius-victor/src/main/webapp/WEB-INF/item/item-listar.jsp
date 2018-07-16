@@ -13,12 +13,6 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
-<h5>Grupo: </h5>
-<h6>José Ronaldo Silveira Miguel - 201176016</h6>
-<h6>Vinícius Filipe de Sousa Clemente - 201276042</h6>
-<h6>Victor Crisóstomo Cruz Reis - 201176037</h6>
-
-<hr />
-<h5>Estatísticas: </h5>
+...
 
 <%@include file="/WEB-INF/jspf/rodape.jspf" %>

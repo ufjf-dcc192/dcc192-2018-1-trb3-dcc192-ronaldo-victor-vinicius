@@ -6,12 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class IndexCommand implements Comando {
+public class ItemEditarCommand implements Comando {
 
     @Override
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/index.jsp");
-        request.setAttribute("titulo", "Página inicial");
+        RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/item/item-editar.jsp");
+        request.setAttribute("titulo", "Editar Item");
         dispacher.forward(request, response);
     }
 }
