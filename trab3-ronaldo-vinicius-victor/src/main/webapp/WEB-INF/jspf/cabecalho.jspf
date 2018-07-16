@@ -11,7 +11,7 @@
         <!-- CSS -->
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        
+
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="js/jquery-3.3.1.slim.min.js"></script>
@@ -28,9 +28,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-<!--                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                        </li>-->
+                        <!--                        <li class="nav-item">
+                                                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                                                </li>-->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Itens
@@ -76,8 +76,7 @@
                 </div>
             </nav>
         </header>
-        <main>
-            <article>
-                <br />
-                <h2><%=request.getAttribute("titulo")%></h2>
-                <hr />
+        <main class="container">
+            <br />
+            <h2><%=request.getAttribute("titulo")%></h2>
+            <hr />

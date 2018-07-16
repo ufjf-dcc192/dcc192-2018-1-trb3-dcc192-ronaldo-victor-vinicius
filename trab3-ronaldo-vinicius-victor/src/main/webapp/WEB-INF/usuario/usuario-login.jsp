@@ -13,15 +13,7 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
-<form method="POST">
-    <div class="form-group">
-        <label for="nomeCompleto">Nome Completo</label>
-        <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" placeholder="Digite seu nome completo">
-    </div>
-    <div class="form-group">
-        <label for="login">E-mail</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email">
-    </div>
+<form>
     <div class="form-group">
         <label for="login">Login</label>
         <input type="text" class="form-control" id="login" placeholder="Digite seu login">
@@ -31,7 +23,7 @@
         <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
     </div>
 
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <button type="submit" class="btn btn-primary">Entrar</button>
 </form>
 
 <%@include file="/WEB-INF/jspf/rodape.jspf" %>

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "PrincipalServlet", urlPatterns = {"/index.html", 
-    "/usuario-novo.html", "/usuario-dados.html", "/login.html", "/logout.html", "/meus-comentarios.html", "/a-avaliar.html", "/trolls.html", "/curadores.html",
+    "/usuario-novo.html", "/visao-geral-do-usuario.html", "/usuario-dados.html", "/login.html", "/logout.html", "/meus-comentarios.html", "/a-avaliar.html", "/trolls.html", "/curadores.html",
     "/item-novo.html", "/item-editar.html", "/item-listar.html", "/item-excluir.html", "/item.html", "/item-comentarios.html", 
     "/comentar.html", "/comentario-excluir.html",
     "/avaliar.html",
@@ -38,6 +38,7 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/a-avaliar.html", "br.com.trab3.usuario.UsuarioAvaliacoesPendentesCommand");
         rotas.put("/trolls.html", "br.com.trab3.usuario.UsuariosTrollsCommand");
         rotas.put("/curadores.html", "br.com.trab3.usuario.UsuariosCuradoresCommand");
+        rotas.put("/visao-geral-do-usuario.html", "br.com.trab3.usuario.UsuariosVisaoGeralCommand");
         
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommand");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommand");
@@ -68,7 +69,7 @@ public class PrincipalServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map<String, String> rotas = new HashMap<>();
-//        rotas.put("/index.html", "codigos.DeletaEventoCommandPost");
+        rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommandPost");
 
         String clazzName = rotas.get(request.getServletPath());
         try {
