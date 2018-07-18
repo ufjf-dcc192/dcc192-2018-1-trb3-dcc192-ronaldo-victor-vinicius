@@ -13,14 +13,14 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
-<form>
+<form method="POST">
     <div class="form-group">
         <label for="login">Login</label>
-        <input type="text" class="form-control" id="login" placeholder="Digite seu login">
+        <input type="text" class="form-control" id="login" name="login" placeholder="Digite seu login">
     </div>
     <div class="form-group">
         <label for="senha">Senha</label>
-        <input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+        <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
     </div>
 
     <button type="submit" class="btn btn-primary">Entrar</button>

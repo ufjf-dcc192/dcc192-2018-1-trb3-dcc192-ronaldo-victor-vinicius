@@ -70,6 +70,7 @@ public class PrincipalServlet extends HttpServlet {
             throws ServletException, IOException {
         Map<String, String> rotas = new HashMap<>();
         rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommandPost");
+        rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommandPost");
 
         String clazzName = rotas.get(request.getServletPath());
         try {
