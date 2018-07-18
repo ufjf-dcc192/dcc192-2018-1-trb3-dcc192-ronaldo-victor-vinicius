@@ -38,7 +38,7 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/a-avaliar.html", "br.com.trab3.usuario.UsuarioAvaliacoesPendentesCommand");
         rotas.put("/trolls.html", "br.com.trab3.usuario.UsuariosTrollsCommand");
         rotas.put("/curadores.html", "br.com.trab3.usuario.UsuariosCuradoresCommand");
-        rotas.put("/visao-geral-do-usuario.html", "br.com.trab3.usuario.UsuariosVisaoGeralCommand");
+        rotas.put("/visao-geral-do-usuario.html", "br.com.trab3.usuario.UsuarioVisaoGeralCommand");
         
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommand");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommand");
