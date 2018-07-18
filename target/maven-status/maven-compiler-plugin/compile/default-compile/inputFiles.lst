@@ -1,3 +1,4 @@
+C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\DAOs\ComentarioDAO.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\item\ItemEditarCommand.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\modelos\Comentario.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuarioDadosCommand.java
@@ -14,7 +15,9 @@ C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-vic
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\item\ItemExcluirCommand.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuarioLogoutCommand.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuarioLMeusComentariosCommand.java
+C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuarioLoginCommandPost.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\AvaliarCommand.java
+C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\DAOs\ItemDAO.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuarioAvaliacoesPendentesCommand.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\usuario\UsuariosTrollsCommand.java
 C:\Users\Sérgio\Documents\NetBeansProjects\dcc192-2018-1-trb3-dcc192-ronaldo-victor-vinicius\src\main\java\br\com\trab3\DAOs\Conexao.java

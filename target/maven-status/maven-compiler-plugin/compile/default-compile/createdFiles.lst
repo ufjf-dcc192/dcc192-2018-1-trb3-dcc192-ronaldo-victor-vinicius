@@ -1,3 +1,4 @@
+br\com\trab3\usuario\UsuarioLoginCommandPost.class
 br\com\trab3\usuario\UsuarioLogoutCommand.class
 br\com\trab3\modelos\Usuario.class
 br\com\trab3\item\ItemNovoCommand.class
@@ -10,9 +11,11 @@ br\com\trab3\usuario\UsuariosTrollsCommand.class
 br\com\trab3\usuario\UsuarioVisaoGeralCommand.class
 br\com\trab3\item\ItemEditarCommand.class
 br\com\trab3\IndexCommand.class
+br\com\trab3\DAOs\ItemDAO.class
 br\com\trab3\usuario\UsuarioAvaliacoesPendentesCommand.class
 br\com\trab3\usuario\UsuarioDadosCommand.class
 br\com\trab3\PrincipalServlet.class
+.netbeans_automatic_build
 br\com\trab3\comentario\ComentarioNovoCommand.class
 br\com\trab3\item\ItemComentariosCommand.class
 br\com\trab3\modelos\Item.class
@@ -22,6 +25,7 @@ br\com\trab3\usuario\UsuarioNovoCommandPost.class
 br\com\trab3\usuario\AvaliarCommand.class
 br\com\trab3\usuario\UsuarioLMeusComentariosCommand.class
 br\com\trab3\item\ItemRankingCommand.class
+br\com\trab3\DAOs\ComentarioDAO.class
 br\com\trab3\item\ItemExcluirCommand.class
 br\com\trab3\comentario\ComentarioExcluirCommand.class
 br\com\trab3\DAOs\UsuarioDAO.class
