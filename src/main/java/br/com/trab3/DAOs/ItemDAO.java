@@ -24,7 +24,7 @@ public class ItemDAO {
         try {
             ItemDAO.conexao = Conexao.getConnection();
             
-//            insertStatement = ItemDAO.conexao.prepareStatement("INSERT INTO usuario(nome_completo, email, login, senha) VALUES(?, ?, ?, ?)");
+            insertStatement = ItemDAO.conexao.prepareStatement("INSERT INTO item(titulo, descricao, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario) VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?)");
         } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,16 +37,15 @@ public class ItemDAO {
         return ItemDAO.instancia;
     }
     
-//    public void criarUsuario(String nomeCompleto, String email, String login, String senha) {
-//        try {
-//            insertStatement.clearParameters();
-//            insertStatement.setString(1, nomeCompleto);
-//            insertStatement.setString(2, email);
-//            insertStatement.setString(3, login);
-//            insertStatement.setString(4, senha);
-//            insertStatement.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    public void criarItem(String titulo, String descricao, String idUsuarioProprietario) {
+        try {
+            insertStatement.clearParameters();
+            insertStatement.setString(1, titulo);
+            insertStatement.setString(2, descricao);
+            insertStatement.setString(3, idUsuarioProprietario);
+            insertStatement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
