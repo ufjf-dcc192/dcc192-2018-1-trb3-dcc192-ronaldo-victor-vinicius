@@ -70,7 +70,9 @@ public class PrincipalServlet extends HttpServlet {
         Map<String, String> rotas = new HashMap<>();
         rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommandPost");
         rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommandPost");
+        
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommandPost");
+        rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommandPost");
 
         String clazzName = rotas.get(request.getServletPath());
         try {

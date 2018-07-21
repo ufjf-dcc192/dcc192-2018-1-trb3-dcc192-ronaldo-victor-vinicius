@@ -40,7 +40,7 @@ public class UsuarioDAO {
         return UsuarioDAO.instancia;
     }
     
-    public void criarUsuario(String nomeCompleto, String email, String login, String senha) {
+    public void insertUsuario(String nomeCompleto, String email, String login, String senha) {
         try {
             insertStatement.clearParameters();
             insertStatement.setString(1, nomeCompleto);

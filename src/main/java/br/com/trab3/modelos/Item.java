@@ -6,7 +6,7 @@ public class Item {
     private Integer idItem;
     private String titulo;
     private String descricao;
-    private ArrayList<String> links;
+    private ArrayList<Link> links;
     private String dataHoraCriacao;
     private String dataHoraUltimaAtualizacao;
     private Integer idUsuarioProprietario;
@@ -20,9 +20,10 @@ public class Item {
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
         this.idUsuarioProprietario = idUsuarioProprietario;
         this.quantidadeLinks = 0;
+        this.links = new ArrayList<>();
     }
 
-    public Item(Integer idItem, String titulo, String descricao, ArrayList<String> links, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario) {
+    public Item(Integer idItem, String titulo, String descricao, ArrayList<Link> links, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario) {
         this.idItem = idItem;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -57,11 +58,11 @@ public class Item {
         this.descricao = descricao;
     }
 
-    public ArrayList<String> getLinks() {
+    public ArrayList<Link> getLinks() {
         return links;
     }
 
-    public void setLinks(ArrayList<String> links) {
+    public void setLinks(ArrayList<Link> links) {
         this.links = links;
     }
 

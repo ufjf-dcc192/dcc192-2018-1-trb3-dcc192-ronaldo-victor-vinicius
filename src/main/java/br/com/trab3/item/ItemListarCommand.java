@@ -17,7 +17,8 @@ public class ItemListarCommand implements Comando {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/item/item-listar.jsp");
         request.setAttribute("titulo", "Listar Itens");
         
-        ArrayList<Item> itens = ItemDAO.getInstance().listarItens(Integer.parseInt(request.getSession().getAttribute("id_usuario").toString()));
+        Integer idUsuario = Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
+        ArrayList<Item> itens = ItemDAO.getInstance().selectAllItens(idUsuario);
         request.setAttribute("itens", itens);
         dispacher.forward(request, response);
     }

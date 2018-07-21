@@ -17,7 +17,7 @@ public class UsuarioNovoCommandPost implements Comando {
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
         
-        UsuarioDAO.getInstance().criarUsuario(nomeCompleto, email, login, senha);
+        UsuarioDAO.getInstance().insertUsuario(nomeCompleto, email, login, senha);
         response.sendRedirect("login.html");
     }
 }

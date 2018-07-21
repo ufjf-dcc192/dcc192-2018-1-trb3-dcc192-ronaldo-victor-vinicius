@@ -13,13 +13,19 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
+<div class="form-group">
+    <a href="item-novo.html" class="btn btn-dark">Novo Item</a>
+</div>
+
 <table class="table table-striped table-hover">
     <thead class="thead-dark">
         <tr>
             <th scope="col">id_item</th>
             <th scope="col">Título</th>
             <th scope="col">Descrição</th>
-            <th scope="col">Nº Links</th>
+            <th scope="col">Links</th>
+            <th scope="col">Comentários</th>
+            <th scope="col">Avaliações</th>
             <th scope="col">Ações</th>
         </tr>
     </thead>
@@ -30,6 +36,8 @@
                 <td>${item.getTitulo()}</td>
                 <td>${item.getDescricao()}</td>
                 <td>${item.getQuantidadeLinks()}</td>
+                <td>...</td>
+                <td>...</td>
                 <td class="btn-group">
                     <a href="item.html?id_item=${item.getIdItem()}" class="btn btn-info" title="Ver Item"><i class="fas fa-clipboard-list"></i></a>
                     <a href="item-editar.html?id_item=${item.getIdItem()}" class="btn btn-dark" title="Editar Item"><i class="fas fa-edit"></i></a>
