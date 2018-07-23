@@ -20,28 +20,33 @@
 <table class="table table-striped table-hover">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">id_item</th>
-            <th scope="col">Título</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Links</th>
-            <th scope="col">Comentários</th>
-            <th scope="col">Avaliações</th>
-            <th scope="col">Ações</th>
+            <th scope="col" class="text-center">id_item</th>
+            <th scope="col" class="text-center">Título</th>
+            <th scope="col" class="text-center">Descrição</th>
+            <th scope="col" class="text-center">Links</th>
+            <th scope="col" class="text-center">Comentários</th>
+            <th scope="col" class="text-center">Avaliações</th>
+            <th scope="col" class="text-center">Ações</th>
         </tr>
     </thead>
     <tbody>
         <c:forEach var="item" items="${itens}">
             <tr>
-                <td>${item.getIdItem()}</td>
+                <td class="text-center">${item.getIdItem()}</td>
                 <td>${item.getTitulo()}</td>
                 <td>${item.getDescricao()}</td>
-                <td>${item.getQuantidadeLinks()}</td>
-                <td>...</td>
-                <td>...</td>
-                <td class="btn-group">
-                    <a href="item.html?id_item=${item.getIdItem()}" class="btn btn-info" title="Ver Item"><i class="fas fa-clipboard-list"></i></a>
-                    <a href="item-editar.html?id_item=${item.getIdItem()}" class="btn btn-dark" title="Editar Item"><i class="fas fa-edit"></i></a>
-                    <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
+                <td class="text-center">${item.getQuantidadeLinks()}</td>
+                <td class="text-center">${item.getQuantidadeComentarios()}</td>
+                <td class="text-center">
+                    <% request.setAttribute("isVertical", false); request.setAttribute("isDisabled", true);%>
+                    <%@include file="/WEB-INF/jspf/avaliacao-item.jspf" %>
+                </td>
+                <td class="text-center">
+                    <div class="btn-group">
+                        <a href="item.html?id_item=${item.getIdItem()}" class="btn btn-info" title="Ver Item"><i class="fas fa-clipboard-list"></i></a>
+                        <a href="item-editar.html?id_item=${item.getIdItem()}" class="btn btn-dark" title="Editar Item"><i class="fas fa-edit"></i></a>
+                        <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
+                    </div>
                 </td>
             </tr>
         </c:forEach>

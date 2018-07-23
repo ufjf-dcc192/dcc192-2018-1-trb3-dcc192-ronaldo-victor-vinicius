@@ -1,6 +1,6 @@
 package br.com.trab3.DAOs;
 
-import br.com.trab3.modelos.Comentario;
+import br.com.trab3.modelos.AvaliacaoComentario;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,44 +16,44 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ComentarioDAO {
+public class AvaliacaoComentarioDAO {
     private static Connection conexao;
-    private static ComentarioDAO instancia = null;
-    private PreparedStatement insertStatement;
+    private static AvaliacaoComentarioDAO instancia = null;
+    private PreparedStatement selectAllAvaliacoesByIdItemStatement;
     
-    public ComentarioDAO() {
+    public AvaliacaoComentarioDAO() {
         try {
-            ComentarioDAO.conexao = Conexao.getConnection();
+            AvaliacaoComentarioDAO.conexao = Conexao.getConnection();
             
             
         } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public static ComentarioDAO getInstance() {
-        if (ComentarioDAO.instancia == null) {
-            ComentarioDAO.instancia = new ComentarioDAO();
+    public static AvaliacaoComentarioDAO getInstance() {
+        if (AvaliacaoComentarioDAO.instancia == null) {
+            AvaliacaoComentarioDAO.instancia = new AvaliacaoComentarioDAO();
         }
-        return ComentarioDAO.instancia;
+        return AvaliacaoComentarioDAO.instancia;
     }
     
-    public ArrayList<Comentario> selectAllComentariosByIdItem(Integer idItem) {
+    public ArrayList<AvaliacaoComentario> selectAllAvaliacoesByIdComentario(Integer idComentario) {
 //        ResultSet resultado = null;
-//        ArrayList<Comentario> links;
-//        links = new ArrayList<>();
+//        ArrayList<AvaliacaoItem> avaliacoes;
+//        avaliacoes = new ArrayList<>();
 //        try {
-//            selectAllLinksByIdItemStatement.clearParameters();
-//            selectAllLinksByIdItemStatement.setInt(1, idItem);
-//            resultado = selectAllLinksByIdItemStatement.executeQuery();
+//            selectAllAvaliacoesByIdItemStatement.clearParameters();
+//            selectAllAvaliacoesByIdItemStatement.setInt(1, idItem);
+//            resultado = selectAllAvaliacoesByIdItemStatement.executeQuery();
 //
 //            while (resultado.next()) {
 //                Integer idLink = resultado.getInt("id_item_relacionado");
 //                String link = resultado.getString("link");
 //
-//                links.add(new Comentario(idLink, link, idItem));
+//                avaliacoes.add(new AvaliacaoItem(idLink, link, idItem));
 //            }
-//            return links;
+//            return avaliacoes;
 //        } catch (SQLException ex) {
 //            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
 //        } finally {
@@ -66,6 +66,7 @@ public class ComentarioDAO {
 //            } catch (SQLException ex) {
 //            }
 //        }
-        return null;
+//        return null;
+        return new ArrayList<AvaliacaoComentario>();
     }
 }

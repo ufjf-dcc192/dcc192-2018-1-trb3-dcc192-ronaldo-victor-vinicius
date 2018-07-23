@@ -1,6 +1,6 @@
 <%@page 
     import="java.util.Date" 
-    errorPage="pagina-de-erro.jsp" 
+    errorPage="../pagina-de-erro.jsp" 
     isErrorPage="false" 
     contentType="text/html" 
     pageEncoding="UTF-8" %>
@@ -17,26 +17,34 @@
     <div class="col-11">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Detalhes</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Links</a>
-                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Principais Comentários</a>
+                <a class="nav-item nav-link active" id="nav-descricao-tab" data-toggle="tab" href="#nav-descricao" role="tab" aria-controls="nav-descricao" aria-selected="true">Detalhes</a>
+                <a class="nav-item nav-link" id="nav-links-tab" data-toggle="tab" href="#nav-links" role="tab" aria-controls="nav-links" aria-selected="false">Links</a>
+                <a class="nav-item nav-link" id="nav-comenarios-tab" data-toggle="tab" href="#nav-comenarios" role="tab" aria-controls="nav-comenarios" aria-selected="false">Principais Comentários</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                detalhes detalhes detalhes detalhes
-                AVALIAÇÃO FINAL
+            <div class="tab-pane fade show active" id="nav-descricao" role="tabpanel" aria-labelledby="nav-descricao-tab">
+                ${item.getDescricao()}<br />
+                AVALIAÇÃO FINAL: ${item.calcularSomatorioDeAvaliacoes()}
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                linkslinkslinkslinkslinks
+            <div class="tab-pane fade" id="nav-links" role="tabpanel" aria-labelledby="nav-links-tab">
+                <ul class="list-group">
+                    <c:forEach var="link" items="${item.getLinks()}">
+                        <li class="list-group-item">ID: ${link.getIdLink()} | LINK: ${link.getLink()}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="nav-comenarios" role="tabpanel" aria-labelledby="nav-comenarios-tab">
+                <c:forEach var="comentario" items="${item.getPrincipaisComentarios()}">
+                    <% // request.setAttribute("isVertical", false); request.setAttribute("isDisabled", true);%>
+                    <%--<%@include file="/WEB-INF/jspf/comentario.jspf" %>--%>
+                </c:forEach>
             </div>
         </div>
     </div>
     <div class="col-1">
-        <div class="btn-group-vertical btn-block">
-            <button type="button" class="btn btn-success"><i class="fas fa-angle-up"></i> &nbsp; 99</button>
-            <button type="button" class="btn btn-danger"><i class="fas fa-angle-down"></i> &nbsp; 54</button>
-        </div>
+        <% request.setAttribute("isVertical", true); request.setAttribute("isDisabled", false);%>
+        <%@include file="/WEB-INF/jspf/avaliacao-item.jspf" %>
     </div>
 </div>
 
@@ -44,21 +52,9 @@
 <hr/>
 <h3>Todos os Comentários</h3>
 
-<div class="row">
-    <div class="card col-11">
-        <div class="card-body">
-            <h5 class="card-title">Título do comentário</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Autor</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-        </div>
-    </div>
-    <div class="col-1">
-        <div class="btn-group-vertical btn-block">
-            <button type="button" class="btn btn-success"><i class="fas fa-angle-up"></i> &nbsp; 5</button>
-            <button type="button" class="btn btn-danger"><i class="fas fa-angle-down"></i> &nbsp; 2</button>
-        </div>
-    </div>
-</div>
+<c:forEach var="comentario" items="${item.getComentarios()}">
+    <% // request.setAttribute("isVertical", false); request.setAttribute("isDisabled", true);%>
+    <%--<%@include file="/WEB-INF/jspf/comentario.jspf" %>--%>
+</c:forEach>
 
 <%@include file="/WEB-INF/jspf/rodape.jspf" %>

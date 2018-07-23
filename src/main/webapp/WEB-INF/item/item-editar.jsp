@@ -1,6 +1,6 @@
 <%@page 
     import="br.com.trab3.modelos.Item" 
-    errorPage="pagina-de-erro.jsp" 
+    errorPage="../pagina-de-erro.jsp" 
     isErrorPage="false" 
     contentType="text/html" 
     pageEncoding="UTF-8" %>

@@ -1,19 +1,13 @@
 package br.com.trab3.DAOs;
 
 import br.com.trab3.modelos.Item;
-import br.com.trab3.modelos.Link;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,17 +15,14 @@ public class ItemDAO {
 
     private static Connection conexao;
     private static ItemDAO instancia = null;
-    
+
     private PreparedStatement selectAllItensStatement;
     private PreparedStatement selectItemByIdStatement;
-    private PreparedStatement selectAllLinksByIdItemStatement;
-    
+
     private PreparedStatement insertItemStatement;
-    private PreparedStatement insertLinkStatement;
-    
+
     private PreparedStatement deleteItemByIdStatement;
-    private PreparedStatement deleteAllLinksByIdItemStatement;
-    
+
     private PreparedStatement updateItemByIdStatement;
 
     public ItemDAO() {
@@ -39,14 +30,18 @@ public class ItemDAO {
             ItemDAO.conexao = Conexao.getConnection();
 
             insertItemStatement = ItemDAO.conexao.prepareStatement("INSERT INTO item(titulo, descricao, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario) VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
-            insertLinkStatement = ItemDAO.conexao.prepareStatement("INSERT INTO link(link, id_item_relacionado) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             selectItemByIdStatement = ItemDAO.conexao.prepareStatement("SELECT * FROM item WHERE id_item = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
-            selectAllItensStatement = ItemDAO.conexao.prepareStatement("SELECT i.id_item, i.titulo, i.descricao, i.data_hora_criacao, i.data_hora_ultima_atualizacao, i.id_usuario_proprietario, count(l.id_link) AS qtd_links FROM item as i, link as l WHERE i.id_usuario_proprietario = ? AND l.id_item_relacionado = i.id_item GROUP BY i.id_item", Statement.RETURN_GENERATED_KEYS);
-            selectAllLinksByIdItemStatement = ItemDAO.conexao.prepareStatement("SELECT * FROM link WHERE id_item_relacionado = ?", Statement.RETURN_GENERATED_KEYS);
+            selectAllItensStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT *, \n" +
+                        "(SELECT count(*) FROM link as l WHERE l.id_item_relacionado = i.id_item) AS qtd_links,\n" +
+                        "(SELECT count(*) FROM comentario as co WHERE co.id_item_comentado = i.id_item) AS qtd_comentarios,\n" +
+                        "(SELECT count(*) FROM avaliacao_item as ai1 WHERE ai1.id_item_avaliado = i.id_item AND ai1.avaliacao > 0) AS qtd_avaliacoes_positivas,\n" +
+                        "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n" +
+                    "FROM item as i\n" +
+                    "WHERE i.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteItemByIdStatement = ItemDAO.conexao.prepareStatement("DELETE FROM link WHERE id_item_relacionado = ?; DELETE FROM item WHERE id_item = ? AND id_usuario_proprietario = ?");
-            deleteAllLinksByIdItemStatement = ItemDAO.conexao.prepareStatement("DELETE FROM link WHERE id_item_relacionado = ?");
 
             updateItemByIdStatement = ItemDAO.conexao.prepareStatement("UPDATE item SET titulo = ?, descricao = ?, data_hora_ultima_atualizacao = LOCALTIMESTAMP WHERE id_item = ? AND id_usuario_proprietario = ?");
         } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
@@ -59,55 +54,6 @@ public class ItemDAO {
             ItemDAO.instancia = new ItemDAO();
         }
         return ItemDAO.instancia;
-    }
-
-    public ArrayList<Link> selectAllLinksByIdItem(Integer idItem) {
-        ResultSet resultado = null;
-        ArrayList<Link> links;
-        links = new ArrayList<>();
-        try {
-            selectAllLinksByIdItemStatement.clearParameters();
-            selectAllLinksByIdItemStatement.setInt(1, idItem);
-            resultado = selectAllLinksByIdItemStatement.executeQuery();
-
-            while (resultado.next()) {
-                Integer idLink = resultado.getInt("id_item_relacionado");
-                String link = resultado.getString("link");
-
-                links.add(new Link(idLink, link, idItem));
-            }
-            return links;
-        } catch (SQLException ex) {
-            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-//                if(insertItemStatement != null) insertItemStatement.close();
-//                if(conexao != null) conexao.close();
-            } catch (SQLException ex) {
-            }
-        }
-        return null;
-    }
-
-    public boolean insertAllLinksByIdItem(Integer idItem, ArrayList<String> links) {
-        try {
-            insertLinkStatement.clearParameters();
-            for (String link : links) {
-                insertLinkStatement.setString(1, link);
-                insertLinkStatement.setInt(2, idItem);
-                insertLinkStatement.addBatch();
-            }
-            insertLinkStatement.executeBatch();
-            insertLinkStatement.clearBatch();
-            
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
     }
 
     public Item insertItem(String titulo, String descricao, ArrayList<String> links, Integer idUsuarioProprietario) {
@@ -128,9 +74,9 @@ public class ItemDAO {
                 String dataHoraCriacao = resultado.getString("data_hora_criacao");
                 String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
 
-                insertAllLinksByIdItem(idItem, links);
+                LinkDAO.getInstance().insertAllLinksByIdItem(idItem, links);
 
-                item = new Item(idItem, titulo, descricao, selectAllLinksByIdItem(idItem), dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario);
+                item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, LinkDAO.getInstance().selectAllLinksByIdItem(idItem), new ArrayList<>(), new ArrayList<>());
             }
             return item;
         } catch (SQLException ex) {
@@ -164,9 +110,11 @@ public class ItemDAO {
                 String dataHoraCriacao = resultado.getString("data_hora_criacao");
                 String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
                 Integer quantidadeLinks = resultado.getInt("qtd_links");
-
-                Item item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario);
-                item.setQuantidadeLinks(quantidadeLinks);
+                Integer quantidadeComentarios = resultado.getInt("qtd_comentarios");
+                Integer quantidadeAvaliacoesPositivas = resultado.getInt("qtd_avaliacoes_positivas");
+                Integer quantidadeAvaliacoesNegativas = resultado.getInt("qtd_avaliacoes_negativas");
+//qtd_comentarios, qtd_avaliacoes_positivas, qtd_avaliacoes_negativas
+                Item item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, quantidadeLinks, quantidadeComentarios, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas);
                 itens.add(item);
             }
             return itens;
@@ -200,19 +148,6 @@ public class ItemDAO {
         return false;
     }
 
-    public boolean deleteAllLinksByIdItem(Integer idItem) {
-        try {
-            deleteAllLinksByIdItemStatement.clearParameters();
-            deleteAllLinksByIdItemStatement.setInt(1, idItem);
-            deleteAllLinksByIdItemStatement.executeUpdate();
-
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
     public Item selectItemById(Integer idItem, Integer idUsuarioProprietario) {
         ResultSet resultado = null;
         Item item = null;
@@ -229,7 +164,7 @@ public class ItemDAO {
                 String dataHoraCriacao = resultado.getString("data_hora_criacao");
                 String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
 
-                item = new Item(idItem, titulo, descricao, selectAllLinksByIdItem(idItem), dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario);
+                item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, LinkDAO.getInstance().selectAllLinksByIdItem(idItem), ComentarioDAO.getInstance().selectAllComentariosByIdItem(idItem), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(idItem, idUsuarioProprietario));
             }
             return item;
         } catch (SQLException ex) {
@@ -256,8 +191,8 @@ public class ItemDAO {
             updateItemByIdStatement.setInt(4, idUsuario);
             updateItemByIdStatement.executeUpdate();
 
-            deleteAllLinksByIdItem(idItem);
-            insertAllLinksByIdItem(idItem, links);
+            LinkDAO.getInstance().deleteAllLinksByIdItem(idItem);
+            LinkDAO.getInstance().insertAllLinksByIdItem(idItem, links);
 
             return true;
         } catch (SQLException ex) {

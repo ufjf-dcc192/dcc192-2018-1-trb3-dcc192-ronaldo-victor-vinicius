@@ -1,0 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<div class="${isVertical ? "btn-group-vertical" : "btn-group"} btn-block">
+    <button class="btn btn-success ${isDisabled ? "disabled" : ""}" title="Avaliações Positivas"><i class="fas fa-angle-up"></i> &nbsp; ${comentario.getQuantidadeAvaliacoesPositivas()}</button>
+    <button class="btn btn-danger ${isDisabled ? "disabled" : ""}" title="Avaliações Negativas"><i class="fas fa-angle-down"></i> &nbsp; ${comentario.getQuantidadeAvaliacoesNegativas()}</button>
+</div>

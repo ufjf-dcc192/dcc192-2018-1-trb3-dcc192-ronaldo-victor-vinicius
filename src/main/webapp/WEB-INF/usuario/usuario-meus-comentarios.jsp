@@ -1,6 +1,6 @@
 <%@page 
     import="java.util.Date" 
-    errorPage="pagina-de-erro.jsp" 
+    errorPage="../pagina-de-erro.jsp" 
     isErrorPage="false" 
     contentType="text/html" 
     pageEncoding="UTF-8" %>

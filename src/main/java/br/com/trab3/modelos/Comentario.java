@@ -1,41 +1,46 @@
 package br.com.trab3.modelos;
 
+import java.util.ArrayList;
+
 public class Comentario {
-    private Integer id;
-    private Integer idUsuarioProprietario;
+    private Integer idComentario;
     private String texto;
     private String dataHoraCriacao;
     private String dataHoraUltimaAtualizacao;
+    private Integer idUsuarioProprietario;
+    private Integer idItemComentado;
+    private ArrayList<AvaliacaoComentario> avaliacoes;
+    private Integer quantidadeAvaliacoesPositivas;
+    private Integer quantidadeAvaliacoesNegativas;
 
-    public Comentario(Integer idUsuarioProprietario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao) {
-        this.idUsuarioProprietario = idUsuarioProprietario;
+    public Comentario(Integer idComentario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, Integer quantidadeAvaliacoesPositivas, Integer quantidadeAvaliacoesNegativas) {
+        this.idComentario = idComentario;
         this.texto = texto;
         this.dataHoraCriacao = dataHoraCriacao;
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
+        this.idUsuarioProprietario = idUsuarioProprietario;
+        this.idItemComentado = idItemComentado;
+        this.quantidadeAvaliacoesPositivas = quantidadeAvaliacoesPositivas;
+        this.quantidadeAvaliacoesNegativas = quantidadeAvaliacoesNegativas;
+        this.avaliacoes = null;
     }
 
-    public Comentario(Integer id, Integer idUsuarioProprietario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao) {
-        this.id = id;
-        this.idUsuarioProprietario = idUsuarioProprietario;
+    public Comentario(Integer idComentario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, ArrayList<AvaliacaoComentario> avaliacoes) {
+        this.idComentario = idComentario;
         this.texto = texto;
         this.dataHoraCriacao = dataHoraCriacao;
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getIdUsuarioProprietario() {
-        return idUsuarioProprietario;
-    }
-
-    public void setIdUsuarioProprietario(Integer idUsuarioProprietario) {
         this.idUsuarioProprietario = idUsuarioProprietario;
+        this.idItemComentado = idItemComentado;
+        this.avaliacoes = avaliacoes;
+    }
+
+    public Integer getIdComentario() {
+        return idComentario;
+    }
+
+    public void setIdComentario(Integer idComentario) {
+        this.idComentario = idComentario;
     }
 
     public String getTexto() {
@@ -61,7 +66,76 @@ public class Comentario {
     public void setDataHoraUltimaAtualizacao(String dataHoraUltimaAtualizacao) {
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
     }
-    
-    
 
+    public Integer getIdUsuarioProprietario() {
+        return idUsuarioProprietario;
+    }
+
+    public void setIdUsuarioProprietario(Integer idUsuarioProprietario) {
+        this.idUsuarioProprietario = idUsuarioProprietario;
+    }
+
+    public Integer getIdItemComentado() {
+        return idItemComentado;
+    }
+
+    public void setIdItemComentado(Integer idItemComentado) {
+        this.idItemComentado = idItemComentado;
+    }
+
+    public ArrayList<AvaliacaoComentario> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(ArrayList<AvaliacaoComentario> avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+
+    public Integer getQuantidadeAvaliacoesPositivas() {
+        if (avaliacoes == null) {
+            return quantidadeAvaliacoesPositivas;
+        } else {
+            Integer resultado = 0;
+            for (AvaliacaoComentario avaliacao : avaliacoes) {
+                if (avaliacao.getAvaliacao() >= 1) {
+                    resultado++;
+                }
+            }
+            return resultado;
+        }
+    }
+
+    public void setQuantidadeAvaliacoesPositivas(Integer quantidadeAvaliacoesPositivas) {
+        this.quantidadeAvaliacoesPositivas = quantidadeAvaliacoesPositivas;
+    }
+
+    public Integer getQuantidadeAvaliacoesNegativas() {
+        if (avaliacoes == null) {
+            return quantidadeAvaliacoesNegativas;
+        } else {
+            Integer resultado = 0;
+            for (AvaliacaoComentario avaliacao : avaliacoes) {
+                if (avaliacao.getAvaliacao() <= -1) {
+                    resultado++;
+                }
+            }
+            return resultado;
+        }
+    }
+
+    public void setQuantidadeAvaliacoesNegativas(Integer quantidadeAvaliacoesNegativas) {
+        this.quantidadeAvaliacoesNegativas = quantidadeAvaliacoesNegativas;
+    }
+    
+    public Integer calcularSomatorioDeAvaliacoes() {
+        if (avaliacoes == null) {
+            return quantidadeAvaliacoesPositivas - quantidadeAvaliacoesNegativas;
+        } else {
+            Integer resultado = 0;
+            for (AvaliacaoComentario avaliacao : avaliacoes) {
+                resultado += avaliacao.getAvaliacao();
+            }
+            return resultado;
+        }
+    }
 }
