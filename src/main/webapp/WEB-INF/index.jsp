@@ -44,6 +44,9 @@
             O sistema deve listar todos os usuários, ordenados pela soma total da avaliação de seus
             comentários: /curadores.html
         </li>
+        <li>
+            Criar estatísticas que achar mais importante.
+        </li>
     </ul>
 </div>
 
