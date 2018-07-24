@@ -66,6 +66,6 @@ public class AvaliacaoItemDAO {
             } catch (SQLException ex) {
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 }

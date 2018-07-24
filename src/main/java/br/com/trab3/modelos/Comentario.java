@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Comentario {
     private Integer idComentario;
+    private String titulo;
     private String texto;
     private String dataHoraCriacao;
     private String dataHoraUltimaAtualizacao;
@@ -13,8 +14,9 @@ public class Comentario {
     private Integer quantidadeAvaliacoesPositivas;
     private Integer quantidadeAvaliacoesNegativas;
 
-    public Comentario(Integer idComentario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, Integer quantidadeAvaliacoesPositivas, Integer quantidadeAvaliacoesNegativas) {
+    public Comentario(Integer idComentario, String titulo, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, Integer quantidadeAvaliacoesPositivas, Integer quantidadeAvaliacoesNegativas) {
         this.idComentario = idComentario;
+        this.titulo = titulo;
         this.texto = texto;
         this.dataHoraCriacao = dataHoraCriacao;
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
@@ -25,8 +27,9 @@ public class Comentario {
         this.avaliacoes = null;
     }
 
-    public Comentario(Integer idComentario, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, ArrayList<AvaliacaoComentario> avaliacoes) {
+    public Comentario(Integer idComentario, String titulo, String texto, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer idItemComentado, ArrayList<AvaliacaoComentario> avaliacoes) {
         this.idComentario = idComentario;
+        this.titulo = titulo;
         this.texto = texto;
         this.dataHoraCriacao = dataHoraCriacao;
         this.dataHoraUltimaAtualizacao = dataHoraUltimaAtualizacao;
@@ -41,6 +44,14 @@ public class Comentario {
 
     public void setIdComentario(Integer idComentario) {
         this.idComentario = idComentario;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getTexto() {

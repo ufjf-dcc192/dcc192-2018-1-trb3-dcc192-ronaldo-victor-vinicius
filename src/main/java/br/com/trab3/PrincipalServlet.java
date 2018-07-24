@@ -50,6 +50,7 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/ranking.html", "br.com.trab3.item.ItemRankingCommand");
 
         rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommand");
+        rotas.put("/comentario-editar.html", "br.com.trab3.comentario.ComentarioEditarCommand");
         rotas.put("/comentario-excluir.html", "br.com.trab3.comentario.ComentarioExcluirCommand");
         
         rotas.put("/avaliar.html", "br.com.trab3.outros.AvaliarCommand");
@@ -73,6 +74,9 @@ public class PrincipalServlet extends HttpServlet {
         
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommandPost");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommandPost");
+        
+        rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommandPost");
+        rotas.put("/comentario-editar.html", "br.com.trab3.comentario.ComentarioEditarCommandPost");
 
         String clazzName = rotas.get(request.getServletPath());
         try {

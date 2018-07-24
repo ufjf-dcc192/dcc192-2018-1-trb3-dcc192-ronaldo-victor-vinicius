@@ -74,7 +74,7 @@ public class LinkDAO {
             } catch (SQLException ex) {
             }
         }
-        return null;
+        return new ArrayList<>();
     }
     
     public boolean insertAllLinksByIdItem(Integer idItem, ArrayList<String> links) {

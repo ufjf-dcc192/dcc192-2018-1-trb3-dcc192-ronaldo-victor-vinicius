@@ -30,6 +30,6 @@ public class ItemEditarCommandPost implements Comando {
         
         Integer idUsuario = Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
         ItemDAO.getInstance().updateItemById(idItem, titulo, descricao, idUsuario, links);
-        response.sendRedirect("item-listar.html");
+        response.sendRedirect("item.html?id_item=" + idItem);
     }
 }

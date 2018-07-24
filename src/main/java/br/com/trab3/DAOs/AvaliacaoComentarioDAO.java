@@ -67,6 +67,6 @@ public class AvaliacaoComentarioDAO {
 //            }
 //        }
 //        return null;
-        return new ArrayList<AvaliacaoComentario>();
+        return new ArrayList<>();
     }
 }

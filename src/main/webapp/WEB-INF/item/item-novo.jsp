@@ -65,9 +65,8 @@
             });
         });
     </script>
-</div>
 
-<button type="submit" class="btn btn-primary">Cadastrar</button>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>
 
 <%@include file="/WEB-INF/jspf/rodape.jspf" %>

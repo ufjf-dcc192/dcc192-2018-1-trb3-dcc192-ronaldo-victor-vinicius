@@ -1,6 +1,7 @@
 package br.com.trab3.modelos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Item {
 
@@ -109,11 +110,11 @@ public class Item {
         return comentarios;
     }
     
-    public ArrayList<Comentario> getPrincipaisComentarios() {
+    public List<Comentario> getPrincipaisComentarios() {
         if (comentarios == null) {
             return new ArrayList<>();
         } else {
-            return (ArrayList<Comentario>) comentarios.subList(0, (comentarios.size() < 5 ? comentarios.size() : 5));
+            return (List<Comentario>) comentarios.subList(0, (comentarios.size() < 5 ? comentarios.size() : 5));
         }
     }
 
