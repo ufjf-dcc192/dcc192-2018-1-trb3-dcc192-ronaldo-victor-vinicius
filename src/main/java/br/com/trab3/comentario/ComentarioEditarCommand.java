@@ -18,16 +18,16 @@ public class ComentarioEditarCommand implements Comando {
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/comentario/comentario-editar.jsp");
         request.setAttribute("titulo", "Editar Comentário");
-        
+
         Integer idComentario = Integer.parseInt(request.getParameter("id_comentario"));
         Integer idUsuario = (Integer) Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
         Comentario comentario = ComentarioDAO.getInstance().selectComentarioByIdComentario(idComentario, idUsuario);
         Item item = ItemDAO.getInstance().selectItemById(comentario.getIdItemComentado(), idUsuario);
-        
+
         if (!Objects.equals(comentario.getIdUsuarioProprietario(), idUsuario)) {
             response.sendRedirect("item.html?id_item=" + item.getIdItem());
         }
-        
+
         request.setAttribute("item", item);
         request.setAttribute("comentario", comentario);
         dispacher.forward(request, response);

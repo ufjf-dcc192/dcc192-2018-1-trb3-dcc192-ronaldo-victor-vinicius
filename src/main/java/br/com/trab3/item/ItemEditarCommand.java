@@ -15,7 +15,7 @@ public class ItemEditarCommand implements Comando {
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/item/item-editar.jsp");
         request.setAttribute("titulo", "Editar Item");
-        
+
         Integer idItem = Integer.parseInt(request.getParameter("id_item"));
         Integer idUsuario = (Integer) Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
         Item item = ItemDAO.getInstance().selectItemById(idItem, idUsuario);

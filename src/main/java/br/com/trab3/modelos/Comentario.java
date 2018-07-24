@@ -3,6 +3,7 @@ package br.com.trab3.modelos;
 import java.util.ArrayList;
 
 public class Comentario {
+
     private Integer idComentario;
     private String titulo;
     private String texto;
@@ -137,7 +138,7 @@ public class Comentario {
     public void setQuantidadeAvaliacoesNegativas(Integer quantidadeAvaliacoesNegativas) {
         this.quantidadeAvaliacoesNegativas = quantidadeAvaliacoesNegativas;
     }
-    
+
     public Integer calcularSomatorioDeAvaliacoes() {
         if (avaliacoes == null) {
             return quantidadeAvaliacoesPositivas - quantidadeAvaliacoesNegativas;

@@ -1,6 +1,7 @@
 package br.com.trab3.modelos;
 
 public class Link {
+
     private Integer idLink;
     private String link;
     private Integer idItemRelacionado;
@@ -34,6 +35,5 @@ public class Link {
     public void setIdItemRelacionado(Integer idItemRelacionado) {
         this.idItemRelacionado = idItemRelacionado;
     }
-    
-    
+
 }

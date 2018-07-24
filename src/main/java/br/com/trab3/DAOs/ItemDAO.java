@@ -33,13 +33,13 @@ public class ItemDAO {
 
             selectItemByIdStatement = ItemDAO.conexao.prepareStatement("SELECT * FROM item WHERE id_item = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
             selectAllItensStatement = ItemDAO.conexao.prepareStatement(
-                    "SELECT *, \n" +
-                        "(SELECT count(*) FROM link as l WHERE l.id_item_relacionado = i.id_item) AS qtd_links,\n" +
-                        "(SELECT count(*) FROM comentario as co WHERE co.id_item_comentado = i.id_item) AS qtd_comentarios,\n" +
-                        "(SELECT count(*) FROM avaliacao_item as ai1 WHERE ai1.id_item_avaliado = i.id_item AND ai1.avaliacao > 0) AS qtd_avaliacoes_positivas,\n" +
-                        "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n" +
-                    "FROM item as i\n" +
-                    "WHERE i.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+                    "SELECT *, \n"
+                    + "(SELECT count(*) FROM link as l WHERE l.id_item_relacionado = i.id_item) AS qtd_links,\n"
+                    + "(SELECT count(*) FROM comentario as co WHERE co.id_item_comentado = i.id_item) AS qtd_comentarios,\n"
+                    + "(SELECT count(*) FROM avaliacao_item as ai1 WHERE ai1.id_item_avaliado = i.id_item AND ai1.avaliacao > 0) AS qtd_avaliacoes_positivas,\n"
+                    + "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
+                    + "FROM item as i\n"
+                    + "WHERE i.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteItemByIdStatement = ItemDAO.conexao.prepareStatement("DELETE FROM link WHERE id_item_relacionado = ?; DELETE FROM item WHERE id_item = ? AND id_usuario_proprietario = ?");
 
@@ -86,8 +86,6 @@ public class ItemDAO {
                 if (resultado != null) {
                     resultado.close();
                 }
-//                if(insertItemStatement != null) insertItemStatement.close();
-//                if(conexao != null) conexao.close();
             } catch (SQLException ex) {
             }
         }
@@ -125,8 +123,6 @@ public class ItemDAO {
                 if (resultado != null) {
                     resultado.close();
                 }
-//                if(insertItemStatement != null) insertItemStatement.close();
-//                if(conexao != null) conexao.close();
             } catch (SQLException ex) {
             }
         }
@@ -164,7 +160,7 @@ public class ItemDAO {
                 String dataHoraCriacao = resultado.getString("data_hora_criacao");
                 String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
 
-                item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, LinkDAO.getInstance().selectAllLinksByIdItem(idItem), ComentarioDAO.getInstance().selectAllComentariosByIdItem(idItem), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(idItem, idUsuarioProprietario));
+                item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, LinkDAO.getInstance().selectAllLinksByIdItem(idItem), ComentarioDAO.getInstance().selectAllComentariosByIdItem(idItem), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(idItem));
             }
             return item;
         } catch (SQLException ex) {
@@ -174,8 +170,6 @@ public class ItemDAO {
                 if (resultado != null) {
                     resultado.close();
                 }
-//                if(insertItemStatement != null) insertItemStatement.close();
-//                if(conexao != null) conexao.close();
             } catch (SQLException ex) {
             }
         }

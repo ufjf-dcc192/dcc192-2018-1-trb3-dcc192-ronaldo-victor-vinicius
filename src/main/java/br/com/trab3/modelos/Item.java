@@ -11,16 +11,15 @@ public class Item {
     private String dataHoraCriacao;
     private String dataHoraUltimaAtualizacao;
     private Integer idUsuarioProprietario;
-    
-   private ArrayList<Link> links;
+
+    private ArrayList<Link> links;
     private ArrayList<Comentario> comentarios;
     private ArrayList<AvaliacaoItem> avaliacoes;
-    
+
     private Integer quantidadeLinks;
     private Integer quantidadeComentarios;
     private Integer quantidadeAvaliacoesPositivas;
     private Integer quantidadeAvaliacoesNegativas;
-    
 
     public Item(Integer idItem, String titulo, String descricao, String dataHoraCriacao, String dataHoraUltimaAtualizacao, Integer idUsuarioProprietario, Integer quantidadeLinks, Integer quantidadeComentarios, Integer quantidadeAvaliacoesPositivas, Integer quantidadeAvaliacoesNegativas) {
         this.idItem = idItem;
@@ -109,7 +108,7 @@ public class Item {
     public ArrayList<Comentario> getComentarios() {
         return comentarios;
     }
-    
+
     public List<Comentario> getPrincipaisComentarios() {
         if (comentarios == null) {
             return new ArrayList<>();

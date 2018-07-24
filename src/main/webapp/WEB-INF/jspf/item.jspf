@@ -4,6 +4,7 @@
 <div class="card p-1">
     <div class="card-body">
         <h5 class="card-title">${item.getTitulo()}</h5>
+        <h6 class="card-subtitle text-muted small mb-3">Avaliação final: ${item.calcularSomatorioDeAvaliacoes()}</h6>
         <p class="card-text">${item.getDescricao()}</p>
 
         <hr />

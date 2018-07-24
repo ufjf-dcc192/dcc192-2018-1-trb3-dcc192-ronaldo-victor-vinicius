@@ -1,6 +1,7 @@
 package br.com.trab3.modelos;
 
 public class Usuario {
+
     private Integer id;
     private String nome;
     private String login;
@@ -61,6 +62,5 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
+
 }

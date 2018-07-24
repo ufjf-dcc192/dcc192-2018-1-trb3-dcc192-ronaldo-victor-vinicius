@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "PrincipalServlet", urlPatterns = {"/", "/index.html", 
+@WebServlet(name = "PrincipalServlet", urlPatterns = {"/", "/index.html",
     "/usuario-novo.html", "/visao-geral-do-usuario.html", "/usuario-dados.html", "/login.html", "/logout.html", "/meus-comentarios.html", "/a-avaliar.html", "/trolls.html", "/curadores.html",
-    "/item-novo.html", "/item-editar.html", "/item-listar.html", "/item-excluir.html", "/item.html", "/item-comentarios.html", 
-    "/comentar.html", "/comentario-excluir.html",
-    "/avaliar.html",
+    "/item-novo.html", "/item-editar.html", "/item-listar.html", "/item-excluir.html", "/item.html", "/item-comentarios.html",
+    "/comentar.html", "/comentario-excluir.html", "/comentario-editar.html", 
+    "/avaliar.html avaliacao-positiva-item.html", "/avaliacao-negativa-item.html", "/avaliacao-positiva-comentario.html", "/avaliacao-negativa-comentario.html",
     "/ranking.html"})
 public class PrincipalServlet extends HttpServlet {
 
@@ -30,7 +30,7 @@ public class PrincipalServlet extends HttpServlet {
 
         rotas.put("/", "br.com.trab3.IndexCommand");
         rotas.put("/index.html", "br.com.trab3.IndexCommand");
-        
+
         rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommand");
         rotas.put("/usuario-dados.html", "br.com.trab3.usuario.UsuarioDadosCommand");
         rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommand");
@@ -40,7 +40,7 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/trolls.html", "br.com.trab3.usuario.UsuariosTrollsCommand");
         rotas.put("/curadores.html", "br.com.trab3.usuario.UsuariosCuradoresCommand");
         rotas.put("/visao-geral-do-usuario.html", "br.com.trab3.usuario.UsuarioVisaoGeralCommand");
-        
+
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommand");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommand");
         rotas.put("/item-listar.html", "br.com.trab3.item.ItemListarCommand");
@@ -52,9 +52,13 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommand");
         rotas.put("/comentario-editar.html", "br.com.trab3.comentario.ComentarioEditarCommand");
         rotas.put("/comentario-excluir.html", "br.com.trab3.comentario.ComentarioExcluirCommand");
-        
-        rotas.put("/avaliar.html", "br.com.trab3.outros.AvaliarCommand");
-        
+
+        rotas.put("/avaliar.html", "br.com.trab3.avaliacao.AvaliarCommand");
+        rotas.put("/avaliacao-positiva-item.html", "br.com.trab3.avaliacao.AvaliacaoPositivaItemCommand");
+        rotas.put("/avaliacao-negativa-item.html", "br.com.trab3.avaliacao.AvaliacaoNegativaItemCommand");
+        rotas.put("/avaliacao-positiva-comentario.html", "br.com.trab3.avaliacao.AvaliacaoPositivaComentarioCommand");
+        rotas.put("/avaliacao-negativa-comentario.html", "br.com.trab3.avaliacao.AvaliacaoNegativaComentarioCommand");
+
         String clazzName = rotas.get(request.getServletPath());
         try {
             Comando comando = (Comando) Class.forName(clazzName).newInstance();
@@ -71,10 +75,10 @@ public class PrincipalServlet extends HttpServlet {
         Map<String, String> rotas = new HashMap<>();
         rotas.put("/usuario-novo.html", "br.com.trab3.usuario.UsuarioNovoCommandPost");
         rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommandPost");
-        
+
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommandPost");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommandPost");
-        
+
         rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommandPost");
         rotas.put("/comentario-editar.html", "br.com.trab3.comentario.ComentarioEditarCommandPost");
 

@@ -1,7 +1,6 @@
 package br.com.trab3.usuario;
 
 import br.com.trab3.Comando;
-import br.com.trab3.Comando;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

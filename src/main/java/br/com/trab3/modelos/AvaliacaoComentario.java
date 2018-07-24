@@ -1,6 +1,7 @@
 package br.com.trab3.modelos;
 
 public class AvaliacaoComentario {
+
     private Integer idAvaliacaoComentario;
     private Integer avaliacao;
     private Integer idComentario;
