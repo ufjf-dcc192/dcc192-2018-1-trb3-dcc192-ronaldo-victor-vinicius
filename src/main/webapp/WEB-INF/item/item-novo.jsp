@@ -16,11 +16,11 @@
 <form method="POST">
     <div class="form-group">
         <label for="titulo">Título</label>
-        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Crie um título para o item" />
+        <input type="text" class="form-control" maxlength="100" id="titulo" name="titulo" placeholder="Crie um título para o item" />
     </div>
     <div class="form-group">
         <label for="descricao">Descricao</label>
-        <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descreva o item" />
+        <textarea class="form-control" maxlength="255" rows="3" id="descricao" name="descricao" placeholder="Descreva o item"></textarea>
     </div>
 
     <div class="field_wrapper">
@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <input type="text" id="link1" name="link1" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon1" />
+                <input type="text" maxlength="255" id="link1" name="link1" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon1" />
                 <div class="input-group-append" id="button-addon1" name="button-addon1">
                     <button class="btn btn-outline-secondary remove_button" type="button" onclick="javascript:void(0);">Remover</button>
                 </div>
@@ -48,7 +48,7 @@
             $(addButton).click(function () {
                 $(wrapper).append(`<div class="form-group">
         <div class="input-group">
-            <input type="text" id="link` + x + `" name="link` + x + `" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon` + x + `" />
+            <input type="text" maxlength="255" id="link` + x + `" name="link` + x + `" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon` + x + `" />
             <div class="input-group-append" id="button-addon` + x + `" name="button-addon` + x + `">
                 <button class="btn btn-outline-secondary remove_button" type="button" onclick="javascript:void(0);">Remover</button>
             </div>

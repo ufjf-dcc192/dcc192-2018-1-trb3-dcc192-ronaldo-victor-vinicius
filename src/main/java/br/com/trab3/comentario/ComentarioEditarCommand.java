@@ -22,7 +22,7 @@ public class ComentarioEditarCommand implements Comando {
         Integer idComentario = Integer.parseInt(request.getParameter("id_comentario"));
         Integer idUsuario = (Integer) Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
         Comentario comentario = ComentarioDAO.getInstance().selectComentarioByIdComentario(idComentario, idUsuario);
-        Item item = ItemDAO.getInstance().selectItemById(comentario.getIdItemComentado(), idUsuario);
+        Item item = ItemDAO.getInstance().selectItemById(comentario.getIdItemComentado());
 
         if (!Objects.equals(comentario.getIdUsuarioProprietario(), idUsuario)) {
             response.sendRedirect("item.html?id_item=" + item.getIdItem());

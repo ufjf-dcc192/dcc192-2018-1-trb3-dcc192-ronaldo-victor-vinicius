@@ -18,7 +18,7 @@ public class ItemListarCommand implements Comando {
         request.setAttribute("titulo", "Listar Itens");
 
         Integer idUsuario = Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
-        ArrayList<Item> itens = ItemDAO.getInstance().selectAllItens(idUsuario);
+        ArrayList<Item> itens = ItemDAO.getInstance().selectAllItensByIdUsuario(idUsuario);
         request.setAttribute("itens", itens);
         dispacher.forward(request, response);
     }

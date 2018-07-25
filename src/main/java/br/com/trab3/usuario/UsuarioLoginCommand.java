@@ -13,6 +13,7 @@ public class UsuarioLoginCommand implements Comando {
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/usuario/usuario-login.jsp");
         request.setAttribute("titulo", "Login");
+        
         dispacher.forward(request, response);
     }
 }

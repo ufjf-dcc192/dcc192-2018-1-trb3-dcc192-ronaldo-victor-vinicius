@@ -12,7 +12,6 @@ public class IndexCommand implements Comando {
     public void exec(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispacher = request.getRequestDispatcher("/WEB-INF/index.jsp");
         request.setAttribute("titulo", "Página inicial");
-        request.setAttribute("login", "AAAAAAA");
         dispacher.forward(request, response);
     }
 }

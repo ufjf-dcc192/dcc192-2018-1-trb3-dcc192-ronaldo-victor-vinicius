@@ -20,7 +20,7 @@ public class ItemDetalhesCommand implements Comando {
         
         Integer idItem = Integer.parseInt(request.getParameter("id_item"));
         Integer idUsuario = (Integer) Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
-        Item item = ItemDAO.getInstance().selectItemById(idItem, idUsuario);
+        Item item = ItemDAO.getInstance().selectItemById(idItem);
         
         Boolean isComentado = false;
         for (Comentario comentario : item.getComentarios()) {

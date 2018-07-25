@@ -24,6 +24,9 @@
     <h4>TODO LIST</h4>
     <ul>
         <li>
+            Preencher o arquivo banco.sql com o script que apaga e gera as tabelas.
+        </li>
+        <li>
             O sistema deve permitir navegar por todos os Itens ordenados por uma das condições: data de
             criação; data de atualização; número de avaliações ou melhor avaliação através do ponto:
             /ranking.html​.

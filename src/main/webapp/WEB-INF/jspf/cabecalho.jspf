@@ -8,20 +8,11 @@
 
         <title>${requestScope.titulo}</title>
         
-        <!--<link rel="stylesheet" href="/css/styles.css">-->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-        
-        <!-- CSS -->
-        <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <!--<script src="js/jquery-3.3.1.slim.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>-->
     </head>
     <body>
         <header>
@@ -34,24 +25,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <c:if test="${sessionScope.login != null}">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Itens
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="item-novo.html">Novo Item</a>
-                                    <a class="dropdown-item" href="item-listar.html">Listar Itens</a>
-                                    <a class="dropdown-item" href="ranking.html">Ranking de Itens</a>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="item-novo.html">Novo Item</a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Usuários
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="trolls.html">Lista de Trolls</a>
-                                    <a class="dropdown-item" href="curadores.html">Lista de Curadores</a>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="ranking.html?criterio=dataHoraCriacao">Ranking de Itens</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="trolls.html">Usuários Trolls</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="curadores.html">Usuários Curadores</a>
                             </li>
                         </c:if>
                     </ul>
@@ -74,6 +58,8 @@
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="visao-geral-do-usuario.html">Visão Geral do Usuário</a>
                                     <a class="dropdown-item" href="usuario-dados.html">Meus Dados</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="item-listar.html">Meus Itens</a>
                                     <a class="dropdown-item" href="meus-comentarios.html">Meus Comentários</a>
                                     <a class="dropdown-item" href="a-avaliar.html">Avaliações Pendentes</a>
                                     <div class="dropdown-divider"></div>

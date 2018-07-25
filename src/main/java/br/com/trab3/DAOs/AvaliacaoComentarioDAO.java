@@ -21,7 +21,7 @@ public class AvaliacaoComentarioDAO {
     
     public AvaliacaoComentarioDAO() {
         try {
-            AvaliacaoComentarioDAO.conexao = Conexao.getConnection();
+            AvaliacaoComentarioDAO.conexao = Conexao.getInstance();
             
             insertAvaliacaoComentarioStatement = AvaliacaoComentarioDAO.conexao.prepareStatement("INSERT INTO avaliacao_comentario(avaliacao, id_comentario_avaliado, id_usuario_proprietario) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             
@@ -31,16 +31,30 @@ public class AvaliacaoComentarioDAO {
             updateAvaliacaoComentarioByIdComentarioAndIdUsuarioStatement = AvaliacaoComentarioDAO.conexao.prepareStatement("UPDATE avaliacao_comentario SET avaliacao = ? WHERE id_comentario_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
             
             deleteAvaliacaoComentarioByIdComentarioAndIdUsuarioStatement = AvaliacaoComentarioDAO.conexao.prepareStatement("DELETE FROM avaliacao_comentario WHERE id_comentario_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
-        } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     public static AvaliacaoComentarioDAO getInstance() {
-        if (AvaliacaoComentarioDAO.instancia == null) {
-            AvaliacaoComentarioDAO.instancia = new AvaliacaoComentarioDAO();
+        try {
+            if (instancia == null || conexao == null || conexao.isClosed()) {
+                instancia = new AvaliacaoComentarioDAO();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return AvaliacaoComentarioDAO.instancia;
+        return instancia;
+    }
+    
+    public void closeConnection() {
+        try {
+            if (conexao != null && !conexao.isClosed()) {
+                conexao.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean insertAvaliacaoComentario(Integer avaliacao, Integer idComentario, Integer idUsuario) {
@@ -91,12 +105,14 @@ public class AvaliacaoComentarioDAO {
             selectAvaliacaoByIdComentarioAndByIdUsuarioStatement.setInt(1, idComentario);
             selectAvaliacaoByIdComentarioAndByIdUsuarioStatement.setInt(2, idUsuario);
             resultado = selectAvaliacaoByIdComentarioAndByIdUsuarioStatement.executeQuery();
-            resultado.next();
             
-            Integer idAvaliacaoItem = (Integer) resultado.getInt("id_avaliacao_comentario");
-            Integer avaliacao = (Integer) resultado.getInt("avaliacao");
-            
-            return new AvaliacaoComentario(idAvaliacaoItem, avaliacao, idComentario, idUsuario);
+            if (resultado.next()) {
+                Integer idAvaliacaoItem = (Integer) resultado.getInt("id_avaliacao_comentario");
+                Integer avaliacao = (Integer) resultado.getInt("avaliacao");
+
+                return new AvaliacaoComentario(idAvaliacaoItem, avaliacao, idComentario, idUsuario);
+            }
+            return null;
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

@@ -13,7 +13,7 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
-<form method="POST">
+<form method="POST" action="login.html">
     <div class="form-group">
         <label for="login">Login</label>
         <input type="text" class="form-control" id="login" name="login" placeholder="Digite seu login">

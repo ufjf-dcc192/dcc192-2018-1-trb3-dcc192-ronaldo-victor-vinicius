@@ -20,7 +20,7 @@
     </div>
     <div class="form-group">
         <label for="descricao">Descricao</label>
-        <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Descreva o item" value="${item.getDescricao()}" />
+        <textarea class="form-control" maxlength="255" rows="3" id="descricao" name="descricao" placeholder="Descreva o item">${item.getDescricao()}</textarea>
     </div>
 
     <div class="field_wrapper">
@@ -31,7 +31,7 @@
         <c:forEach var="link" items="${item.getLinks()}">
             <div class="form-group">
                 <div class="input-group">
-                    <input value="${link.getLink()}" type="text" id="link${item.getLinks().indexOf(link)+1}" name="link${item.getLinks().indexOf(link)+1}" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon${item.getLinks().indexOf(link)+1}" />
+                    <input value="${link.getLink()}" type="text" maxlength="255" id="link${item.getLinks().indexOf(link)+1}" name="link${item.getLinks().indexOf(link)+1}" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon${item.getLinks().indexOf(link)+1}" />
                     <div class="input-group-append" id="button-addon${item.getLinks().indexOf(link)+1}" name="button-addon${item.getLinks().indexOf(link)+1}">
                         <button class="btn btn-outline-secondary remove_button" type="button" onclick="javascript:void(0);">Remover</button>
                     </div>
@@ -50,7 +50,7 @@
             $(addButton).click(function () {
                 $(wrapper).append(`<div class="form-group">
         <div class="input-group">
-            <input type="text" id="link` + x + `" name="link` + x + `" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon` + x + `" />
+            <input type="text" maxlength="255" id="link` + x + `" name="link` + x + `" class="form-control" placeholder="Digite um link" aria-label="Digite um link" aria-describedby="button-addon` + x + `" />
             <div class="input-group-append" id="button-addon` + x + `" name="button-addon` + x + `">
                 <button class="btn btn-outline-secondary remove_button" type="button" onclick="javascript:void(0);">Remover</button>
             </div>

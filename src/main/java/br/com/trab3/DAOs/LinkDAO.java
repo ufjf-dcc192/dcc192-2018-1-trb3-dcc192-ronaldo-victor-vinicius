@@ -21,7 +21,7 @@ public class LinkDAO {
 
     public LinkDAO() {
         try {
-            LinkDAO.conexao = Conexao.getConnection();
+            LinkDAO.conexao = Conexao.getInstance();
 
             insertLinkStatement = LinkDAO.conexao.prepareStatement("INSERT INTO link(link, id_item_relacionado) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
 
@@ -29,18 +29,32 @@ public class LinkDAO {
 
             deleteAllLinksByIdItemStatement = LinkDAO.conexao.prepareStatement("DELETE FROM link WHERE id_item_relacionado = ?");
 
-        } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(LinkDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static LinkDAO getInstance() {
-        if (LinkDAO.instancia == null) {
-            LinkDAO.instancia = new LinkDAO();
+        try {
+            if (instancia == null || conexao == null || conexao.isClosed()) {
+                instancia = new LinkDAO();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return LinkDAO.instancia;
+        return instancia;
     }
-
+    
+    public void closeConnection() {
+        try {
+            if (conexao != null && !conexao.isClosed()) {
+                conexao.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public ArrayList<Link> selectAllLinksByIdItem(Integer idItem) {
         ResultSet resultado = null;
         ArrayList<Link> links;

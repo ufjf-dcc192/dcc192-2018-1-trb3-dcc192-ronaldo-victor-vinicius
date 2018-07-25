@@ -20,11 +20,11 @@
 <form method="POST">
     <div class="form-group">
         <label for="titulo">Título do Comentário</label>
-        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Crie um título para o comentário" value="${comentario.getTitulo()}" />
+        <input type="text" class="form-control" maxlength="100" id="titulo" name="titulo" placeholder="Crie um título para o comentário" value="${comentario.getTitulo()}" />
     </div>
     <div class="form-group">
         <label for="texto">Texto do Comentário</label>
-        <textarea rows="4" class="form-control" id="texto" name="texto" placeholder="Digite aqui o seu comentário">${comentario.getTexto()}</textarea>
+        <textarea rows="4" class="form-control" maxlength="255" id="texto" name="texto" placeholder="Digite aqui o seu comentário">${comentario.getTexto()}</textarea>
     </div>
     
     <input type="hidden" id="id_comentario" name="id_comentario" value="${comentario.getIdComentario()}">

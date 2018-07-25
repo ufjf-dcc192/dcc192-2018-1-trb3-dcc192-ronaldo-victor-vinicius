@@ -27,7 +27,7 @@ public class AvaliacaoItemDAO {
 
     public AvaliacaoItemDAO() {
         try {
-            AvaliacaoItemDAO.conexao = Conexao.getConnection();
+            AvaliacaoItemDAO.conexao = Conexao.getInstance();
             insertAvaliacaoItemStatement = AvaliacaoItemDAO.conexao.prepareStatement("INSERT INTO avaliacao_item(avaliacao, id_item_avaliado, id_usuario_proprietario) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             selectAllAvaliacoesByIdItemStatement = AvaliacaoItemDAO.conexao.prepareStatement("SELECT * FROM avaliacao_item WHERE id_item_avaliado = ?", Statement.RETURN_GENERATED_KEYS);
@@ -36,16 +36,30 @@ public class AvaliacaoItemDAO {
             updateAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("UPDATE avaliacao_item SET avaliacao = ? WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("DELETE FROM avaliacao_item WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
-        } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(AvaliacaoItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static AvaliacaoItemDAO getInstance() {
-        if (AvaliacaoItemDAO.instancia == null) {
-            AvaliacaoItemDAO.instancia = new AvaliacaoItemDAO();
+        try {
+            if (instancia == null || conexao == null || conexao.isClosed()) {
+                instancia = new AvaliacaoItemDAO();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return AvaliacaoItemDAO.instancia;
+        return instancia;
+    }
+    
+    public void closeConnection() {
+        try {
+            if (conexao != null && !conexao.isClosed()) {
+                conexao.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public boolean insertAvaliacaoItem(Integer avaliacao, Integer idItem, Integer idUsuario) {
@@ -127,11 +141,13 @@ public class AvaliacaoItemDAO {
             selectAvaliacaoByIdItemAndByIdUsuarioStatement.setInt(2, idUsuario);
             resultado = selectAvaliacaoByIdItemAndByIdUsuarioStatement.executeQuery();
 
-            resultado.next();
-            Integer idAvaliacaoItem = (Integer) resultado.getInt("id_avaliacao_item");
-            Integer avaliacao = (Integer) resultado.getInt("avaliacao");
+            if (resultado.next()) {
+                Integer idAvaliacaoItem = (Integer) resultado.getInt("id_avaliacao_item");
+                Integer avaliacao = (Integer) resultado.getInt("avaliacao");
 
-            return new AvaliacaoItem(idAvaliacaoItem, avaliacao, idItem, idUsuario);
+                return new AvaliacaoItem(idAvaliacaoItem, avaliacao, idItem, idUsuario);
+            }
+            return null;
         } catch (SQLException ex) {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

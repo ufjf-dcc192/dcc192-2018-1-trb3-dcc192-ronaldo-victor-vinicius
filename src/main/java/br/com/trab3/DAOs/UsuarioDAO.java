@@ -18,20 +18,34 @@ public class UsuarioDAO {
 
     public UsuarioDAO() {
         try {
-            UsuarioDAO.conexao = Conexao.getConnection();
+            conexao = Conexao.getInstance();
 
             insertStatement = UsuarioDAO.conexao.prepareStatement("INSERT INTO usuario(nome_completo, email, login, senha) VALUES(?, ?, ?, ?)");
             loginStatement = UsuarioDAO.conexao.prepareStatement("SELECT * FROM usuario WHERE login = ? AND senha = ?");
-        } catch (URISyntaxException | SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public static UsuarioDAO getInstance() {
-        if (UsuarioDAO.instancia == null) {
-            UsuarioDAO.instancia = new UsuarioDAO();
+        try {
+            if (instancia == null || conexao == null || conexao.isClosed()) {
+                instancia = new UsuarioDAO();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return UsuarioDAO.instancia;
+        return instancia;
+    }
+    
+    public void closeConnection() {
+        try {
+            if (conexao != null && !conexao.isClosed()) {
+                conexao.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AvaliacaoComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void insertUsuario(String nomeCompleto, String email, String login, String senha) {

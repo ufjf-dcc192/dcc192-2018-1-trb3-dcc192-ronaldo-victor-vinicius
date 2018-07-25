@@ -38,11 +38,13 @@
         <% request.setAttribute("isVertical", true);
             request.setAttribute("isDisabled", false);%>
         <%@include file="/WEB-INF/jspf/avaliacao-item.jspf" %>
-
-        <div class="btn-group-vertical btn-block text-center">
-            <a href="item-editar.html?id_item=${item.getIdItem()}" class="btn btn-dark" title="Editar Item"><i class="fas fa-edit"></i></a>
-            <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
-        </div>
+        <c:if test="${item.getIdUsuarioProprietario() == id_usuario}">
+            <div class="btn-group-vertical btn-block text-center">
+                <a href="item-editar.html?id_item=${item.getIdItem()}" class="btn btn-dark" title="Editar Item"><i class="fas fa-edit"></i></a>
+                <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
+            </div>
+        </c:if>
+        
     </div>
 </div>
 
