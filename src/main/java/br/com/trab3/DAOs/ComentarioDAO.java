@@ -19,6 +19,7 @@ public class ComentarioDAO {
 
     private PreparedStatement selectAllComentariosByIdItemStatement;
     private PreparedStatement selectComentarioByIdComentarioStatement;
+    private PreparedStatement selectCountComentariosByIdUsuarioStatement;
 
     private PreparedStatement deleteComentarioByIdComentarioStatement;
 
@@ -40,6 +41,7 @@ public class ComentarioDAO {
                     + "FROM comentario as co\n"
                     + "WHERE co.id_item_comentado = ?) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
+            selectCountComentariosByIdUsuarioStatement = ComentarioDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_comentarios FROM comentario WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement("DELETE FROM avaliacao_comentario WHERE id_comentario_avaliado = ?; DELETE FROM comentario WHERE id_comentario = ? AND id_usuario_proprietario = ?");
 
@@ -181,5 +183,30 @@ public class ComentarioDAO {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+    
+    public Integer selectCountComentariosByIdUsuario(Integer idUsuario) {
+        ResultSet resultado = null;
+        try {
+            selectCountComentariosByIdUsuarioStatement.clearParameters();
+            selectCountComentariosByIdUsuarioStatement.setInt(1, idUsuario);
+            resultado = selectCountComentariosByIdUsuarioStatement.executeQuery();
+
+            Integer qtdComentarios = 0;
+            if (resultado.next()) {
+                qtdComentarios = (Integer) resultado.getInt("qtd_comentarios");
+            }
+            return qtdComentarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+        return 0;
     }
 }

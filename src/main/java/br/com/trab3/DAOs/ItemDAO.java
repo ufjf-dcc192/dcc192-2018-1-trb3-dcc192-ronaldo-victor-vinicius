@@ -24,6 +24,7 @@ public class ItemDAO {
     private PreparedStatement selectAllItensOrderByDataHoraUltimaAtualizacaoStatement;
     private PreparedStatement selectAllItensOrderByQtdTotalDeAvaliacoesStatement;
     private PreparedStatement selectAllItensOrderByMelhorAvaliacaoStatement;
+    private PreparedStatement selectCountItensByIdUsuarioStatement;
 
     private PreparedStatement deleteItemByIdStatement;
 
@@ -76,6 +77,7 @@ public class ItemDAO {
                     + "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
                     + "FROM item as i) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC, qtd_total_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
+            selectCountItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_itens FROM item WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteItemByIdStatement = ItemDAO.conexao.prepareStatement(
                     "DELETE FROM avaliacao_item WHERE id_item_avaliado = ?; "
@@ -166,7 +168,7 @@ public class ItemDAO {
                 Integer quantidadeComentarios = resultado.getInt("qtd_comentarios");
                 Integer quantidadeAvaliacoesPositivas = resultado.getInt("qtd_avaliacoes_positivas");
                 Integer quantidadeAvaliacoesNegativas = resultado.getInt("qtd_avaliacoes_negativas");
-//qtd_comentarios, qtd_avaliacoes_positivas, qtd_avaliacoes_negativas
+                
                 Item item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, quantidadeLinks, quantidadeComentarios, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas);
                 itens.add(item);
             }
@@ -182,6 +184,31 @@ public class ItemDAO {
             }
         }
         return null;
+    }
+    
+    public Integer selectCountItensByIdUsuario(Integer idUsuarioProprietario) {
+        ResultSet resultado = null;
+        try {
+            selectCountItensByIdUsuarioStatement.clearParameters();
+            selectCountItensByIdUsuarioStatement.setInt(1, idUsuarioProprietario);
+            resultado = selectCountItensByIdUsuarioStatement.executeQuery();
+            
+            Integer qtdItens = 0;
+            if (resultado.next()) {
+                qtdItens = (Integer) resultado.getInt("qtd_itens");
+            }
+            return qtdItens;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+        return 0;
     }
 
     public ArrayList<Item> selectAllItensOrderByDataHoraCriacao() {

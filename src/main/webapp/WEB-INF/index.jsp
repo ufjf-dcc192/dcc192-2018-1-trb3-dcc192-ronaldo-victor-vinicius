@@ -27,11 +27,6 @@
             Preencher o arquivo banco.sql com o script que apaga e gera as tabelas.
         </li>
         <li>
-            O sistema deve permitir navegar por todos os Itens ordenados por uma das condições: data de
-            criação; data de atualização; número de avaliações ou melhor avaliação através do ponto:
-            /ranking.html​.
-        </li>
-        <li>
             O sistema deve permitir exibir todos os Itens comentados pelo usuário atual no ponto:
             /meus-comentarios.html
         </li>
@@ -46,9 +41,6 @@
         <li>
             O sistema deve listar todos os usuários, ordenados pela soma total da avaliação de seus
             comentários: /curadores.html
-        </li>
-        <li>
-            Criar estatísticas que achar mais importante.
         </li>
     </ul>
 </div>
