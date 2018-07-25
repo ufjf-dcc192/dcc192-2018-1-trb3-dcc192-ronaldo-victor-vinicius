@@ -13,10 +13,11 @@
 
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
-<a class="btn btn-dark" href="usuario-dados.html">Meus Dados</a>
-<a class="btn btn-dark" href="item-listar.html">Meus Itens</a>
+<a class="btn btn-dark" href="item-novo.html">Novo Item</a>
+| <a class="btn btn-dark" href="item-listar.html">Meus Itens</a>
 <a class="btn btn-dark" href="meus-comentarios.html">Meus Comentários</a>
 <a class="btn btn-dark" href="a-avaliar.html">Avaliações Pendentes</a>
+| <a class="btn btn-dark" href="usuario-dados.html">Meus Dados</a>
 
 <hr />
 
@@ -27,19 +28,19 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-6 text-right">Meus itens</div>
+                    <div class="col-6 text-right text-muted">Meus itens:</div>
                     <div class="col-6">${countMeusItens}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-success">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Positivas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Positivas:</div>
                     <div class="col-6">${countAvaliacoesPositivasMeusItens}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-danger">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Negativas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Negativas:</div>
                     <div class="col-6">${countAvaliacoesNegativasMeusItens}</div>
                 </div>
             </li>
@@ -50,19 +51,19 @@
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Positivas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Positivas:</div>
                     <div class="col-6">${countAvaliacoesPositivasFeitasAItens}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-danger">
                 <div class="row">
-                    <div class="col-6 text-right">+ Total de Avaliações Negativas</div>
+                    <div class="col-6 text-right text-muted">+ Total de Avaliações Negativas:</div>
                     <div class="col-6">${countAvaliacoesNegativasFeitasAItens}</div>
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-6 text-right">= Total avaliações feitas</div>
+                    <div class="col-6 text-right text-muted">= Total avaliações feitas:</div>
                     <div class="col-6">${countAvaliacoesFeitasAItens}</div>
                 </div>
             </li>
@@ -78,19 +79,19 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-6 text-right">Meus Comentários</div>
+                    <div class="col-6 text-right text-muted">Meus Comentários:</div>
                     <div class="col-6">${countMeusComentarios}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-success">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Positivas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Positivas:</div>
                     <div class="col-6">${countAvaliacoesPositivasMeusComentarios}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-danger">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Negativas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Negativas:</div>
                     <div class="col-6">${countAvaliacoesNegativasMeusComentarios}</div>
                 </div>
             </li>
@@ -101,19 +102,19 @@
         <ul class="list-group">
             <li class="list-group-item list-group-item-success">
                 <div class="row">
-                    <div class="col-6 text-right">Total de Avaliações Positivas</div>
+                    <div class="col-6 text-right text-muted">Total de Avaliações Positivas:</div>
                     <div class="col-6">${countAvaliacoesPositivasFeitasAComentarios}</div>
                 </div>
             </li>
             <li class="list-group-item list-group-item-danger">
                 <div class="row">
-                    <div class="col-6 text-right">+ Total de Avaliações Negativas</div>
+                    <div class="col-6 text-right text-muted">+ Total de Avaliações Negativas:</div>
                     <div class="col-6">${countAvaliacoesNegativasFeitasAComentarios}</div>
                 </div>
             </li>
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-6 text-right">= Total de avaliações feitas</div>
+                    <div class="col-6 text-right text-muted">= Total de avaliações feitas:</div>
                     <div class="col-6">${countAvaliacoesFeitasAComentarios}</div>
                 </div>
             </li>
