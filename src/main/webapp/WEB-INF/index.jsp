@@ -27,14 +27,6 @@
             Preencher o arquivo banco.sql com o script que apaga e gera as tabelas.
         </li>
         <li>
-            O sistema deve permitir exibir todos os Itens comentados pelo usuário atual no ponto:
-            /meus-comentarios.html
-        </li>
-        <li>
-            O sistema deve permitir exibir todos os Itens não avaliados ou comentados pelo usuário atual,
-            ordenados pela sua avaliação atual no ponto: /a-avaliar.html​.
-        </li>
-        <li>
             O sistema deve listar todos os usuários que obtiverem mais de 50% de seus comentários
             avaliados negativamente através do ponto: /trolls.html​.
         </li>

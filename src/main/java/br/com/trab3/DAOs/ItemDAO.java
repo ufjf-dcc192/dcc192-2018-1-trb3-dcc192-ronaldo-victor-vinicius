@@ -2,7 +2,6 @@ package br.com.trab3.DAOs;
 
 import br.com.trab3.modelos.Comentario;
 import br.com.trab3.modelos.Item;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,6 +26,7 @@ public class ItemDAO {
     private PreparedStatement selectAllItensOrderByMelhorAvaliacaoStatement;
     private PreparedStatement selectCountItensByIdUsuarioStatement;
     private PreparedStatement selectAllItensComentadosByIdUsuarioStatement;
+    private PreparedStatement selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement;
 
     private PreparedStatement deleteItemByIdStatement;
 
@@ -36,9 +36,15 @@ public class ItemDAO {
         try {
             ItemDAO.conexao = Conexao.getInstance();
 
-            insertItemStatement = ItemDAO.conexao.prepareStatement("INSERT INTO item(titulo, descricao, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario) VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
+            insertItemStatement = ItemDAO.conexao.prepareStatement(
+                    "INSERT INTO item(titulo, descricao, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario) "
+                    + "VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            selectItemByIdStatement = ItemDAO.conexao.prepareStatement("SELECT * FROM item WHERE id_item = ?", Statement.RETURN_GENERATED_KEYS);
+            selectItemByIdStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT * "
+                    + "FROM item \n"
+                    + "WHERE id_item NOT IN \n"
+                    + "(SELECT id_item_avaliado FROM avaliacao_item WHERE id_usuario_proprietario = ?)", Statement.RETURN_GENERATED_KEYS);
             selectAllItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
                     "SELECT *, \n"
                     + "(SELECT count(*) FROM link as l WHERE l.id_item_relacionado = i.id_item) AS qtd_links,\n"
@@ -47,7 +53,8 @@ public class ItemDAO {
                     + "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
                     + "FROM item as i\n"
                     + "WHERE i.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
-            selectAllItensOrderByDataHoraCriacaoStatement = ItemDAO.conexao.prepareStatement("SELECT *, \n"
+            selectAllItensOrderByDataHoraCriacaoStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT *, \n"
                     + "(pn.qtd_avaliacoes_positivas + pn.qtd_avaliacoes_negativas) AS qtd_total_avaliacoes,\n"
                     + "(pn.qtd_avaliacoes_positivas - pn.qtd_avaliacoes_negativas) AS diferenca_qtd_avaliacoes\n"
                     + "FROM (SELECT *, \n"
@@ -79,7 +86,10 @@ public class ItemDAO {
                     + "(SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
                     + "FROM item as i) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC, qtd_total_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
-            selectCountItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_itens FROM item WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectCountItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT COUNT(*) AS qtd_itens "
+                    + "FROM item "
+                    + "WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
             selectAllItensComentadosByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
                     "SELECT \n"
                     + "i.id_item AS item_id_item, \n"
@@ -94,7 +104,21 @@ public class ItemDAO {
                     + "co.data_hora_criacao AS comentario_data_hora_criacao,\n"
                     + "co.data_hora_ultima_atualizacao AS comentario_data_hora_ultima_atualizacao,\n"
                     + "co.id_usuario_proprietario AS comentario_id_usuario_proprietario\n"
-                    + "FROM item AS i, comentario AS co WHERE i.id_item = co.id_item_comentado AND co.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+                    + "FROM item AS i, comentario AS co "
+                    + "WHERE i.id_item = co.id_item_comentado AND co.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT *,\n"
+                    + "((SELECT count(*) FROM avaliacao_item as ai1 WHERE ai1.id_item_avaliado = i.id_item AND ai1.avaliacao > 0) \n"
+                    + "- (SELECT count(*) FROM avaliacao_item as ai2 WHERE ai2.id_item_avaliado = i.id_item AND ai2.avaliacao < 0)) AS diferenca_qtd_avaliacoes\n"
+                    + "FROM item AS i\n"
+                    + "WHERE i.id_item NOT IN \n"
+                    + "(SELECT ai.id_item_avaliado FROM avaliacao_item AS ai WHERE ai.id_usuario_proprietario = ?)\n"
+                    + "OR id_item IN \n"
+                    + "(SELECT co.id_item_comentado\n"
+                    + "FROM comentario AS co\n"
+                    + "WHERE co.id_comentario NOT IN \n"
+                    + "(SELECT ac.id_comentario_avaliado FROM avaliacao_comentario AS ac WHERE ac.id_usuario_proprietario = ?))\n"
+                    + "ORDER BY diferenca_qtd_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
 
             deleteItemByIdStatement = ItemDAO.conexao.prepareStatement(
                     "DELETE FROM avaliacao_item WHERE id_item_avaliado = ?; "
@@ -454,18 +478,55 @@ public class ItemDAO {
                 String item_data_hora_criacao = resultado.getString("item_data_hora_criacao");
                 String item_data_hora_ultima_atualizacao = resultado.getString("item_data_hora_ultima_atualizacao");
                 Integer item_id_usuario_proprietario = (Integer) Integer.parseInt(resultado.getString("item_id_usuario_proprietario"));
-                
+
                 Integer comentario_id_comentario = (Integer) Integer.parseInt(resultado.getString("comentario_id_comentario"));
                 String comentario_titulo = resultado.getString("comentario_titulo");
                 String comentario_texto = resultado.getString("comentario_texto");
                 String comentario_data_hora_criacao = resultado.getString("comentario_data_hora_criacao");
                 String comentario_data_hora_ultima_atualizacao = resultado.getString("comentario_data_hora_ultima_atualizacao");
                 Integer comentario_id_usuario_proprietario = (Integer) Integer.parseInt(resultado.getString("comentario_id_usuario_proprietario"));
-                
+
                 Item item = new Item(item_id_item, item_titulo, item_descricao, item_data_hora_criacao, item_data_hora_ultima_atualizacao, item_id_usuario_proprietario, LinkDAO.getInstance().selectAllLinksByIdItem(item_id_item), new ArrayList<>(), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(item_id_item));
                 Comentario comentario = new Comentario(comentario_id_comentario, comentario_titulo, comentario_texto, comentario_data_hora_criacao, comentario_data_hora_ultima_atualizacao, comentario_id_usuario_proprietario, item_id_item, AvaliacaoComentarioDAO.getInstance().selectAllAvaliacoesByIdComentario(comentario_id_comentario));
                 item.getComentarios().add(comentario);
-                
+
+                itens.add(item);
+            }
+            return itens;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Item> selectAllItensAndComentariosNaoAvaliadosByIdUsuario(Integer idUsuario) {
+        ResultSet resultado = null;
+        ArrayList<Item> itens;
+        itens = new ArrayList<>();
+        try {
+
+            selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement.clearParameters();
+            selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement.setInt(1, (int) idUsuario);
+            selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement.setInt(2, (int) idUsuario);
+            resultado = selectAllItensAndComentariosNaoAvaliadosByIdUsuarioStatement.executeQuery();
+
+            while (resultado.next()) {
+                Integer id_item = (Integer) Integer.parseInt(resultado.getString("id_item"));
+                String titulo = resultado.getString("titulo");
+                String descricao = resultado.getString("descricao");
+                String data_hora_criacao = resultado.getString("data_hora_criacao");
+                String data_hora_ultima_atualizacao = resultado.getString("data_hora_ultima_atualizacao");
+                Integer id_usuario_proprietario = (Integer) Integer.parseInt(resultado.getString("id_usuario_proprietario"));
+
+                Item item = new Item(id_item, titulo, descricao, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario, LinkDAO.getInstance().selectAllLinksByIdItem(id_item), ComentarioDAO.getInstance().selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItem(idUsuario, id_item), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(id_item));
+
                 itens.add(item);
             }
             return itens;

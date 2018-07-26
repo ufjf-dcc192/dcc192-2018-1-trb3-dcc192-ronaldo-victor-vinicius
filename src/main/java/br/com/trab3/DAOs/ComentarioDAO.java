@@ -1,7 +1,6 @@
 package br.com.trab3.DAOs;
 
 import br.com.trab3.modelos.Comentario;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +19,7 @@ public class ComentarioDAO {
     private PreparedStatement selectAllComentariosByIdItemStatement;
     private PreparedStatement selectComentarioByIdComentarioStatement;
     private PreparedStatement selectCountComentariosByIdUsuarioStatement;
+    private PreparedStatement selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement;
 
     private PreparedStatement deleteComentarioByIdComentarioStatement;
 
@@ -29,9 +29,14 @@ public class ComentarioDAO {
         try {
             ComentarioDAO.conexao = Conexao.getInstance();
 
-            insertComentarioStatement = ComentarioDAO.conexao.prepareStatement("INSERT INTO comentario(titulo, texto, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario, id_item_comentado) VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            insertComentarioStatement = ComentarioDAO.conexao.prepareStatement(
+                    "INSERT INTO comentario(titulo, texto, data_hora_criacao, data_hora_ultima_atualizacao, id_usuario_proprietario, id_item_comentado) "
+                    + "VALUES(?, ?,  LOCALTIMESTAMP,  LOCALTIMESTAMP, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            selectComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement("SELECT * FROM comentario WHERE id_comentario = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement(
+                    "SELECT * "
+                    + "FROM comentario "
+                    + "WHERE id_comentario = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
             selectAllComentariosByIdItemStatement = ComentarioDAO.conexao.prepareStatement(
                     "SELECT *,\n"
                     + "(pn.qtd_avaliacoes_positivas - pn.qtd_avaliacoes_negativas) AS diferenca_qtd_avaliacoes\n"
@@ -41,11 +46,29 @@ public class ComentarioDAO {
                     + "FROM comentario as co\n"
                     + "WHERE co.id_item_comentado = ?) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
-            selectCountComentariosByIdUsuarioStatement = ComentarioDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_comentarios FROM comentario WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectCountComentariosByIdUsuarioStatement = ComentarioDAO.conexao.prepareStatement(
+                    "SELECT COUNT(*) AS qtd_comentarios "
+                    + "FROM comentario "
+                    + "WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement = ComentarioDAO.conexao.prepareStatement(
+                    "SELECT *,\n"
+                    + "(pn.qtd_avaliacoes_positivas - pn.qtd_avaliacoes_negativas) AS diferenca_qtd_avaliacoes\n"
+                    + "FROM (SELECT *,\n"
+                    + "(SELECT count(*) FROM avaliacao_comentario as ac1 WHERE ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao > 0) AS qtd_avaliacoes_positivas,\n"
+                    + "(SELECT count(*) FROM avaliacao_comentario as ac2 WHERE ac2.id_comentario_avaliado = co.id_comentario AND ac2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
+                    + "FROM comentario AS co\n"
+                    + "WHERE id_item_comentado = ? AND id_comentario NOT IN \n"
+                    + "(SELECT id_comentario_avaliado FROM avaliacao_comentario WHERE id_usuario_proprietario = ?)) AS pn\n"
+                    + "ORDER BY diferenca_qtd_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
 
-            deleteComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement("DELETE FROM avaliacao_comentario WHERE id_comentario_avaliado = ?; DELETE FROM comentario WHERE id_comentario = ? AND id_usuario_proprietario = ?");
+            deleteComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement(
+                    "DELETE FROM avaliacao_comentario WHERE id_comentario_avaliado = ?; "
+                    + "DELETE FROM comentario WHERE id_comentario = ? AND id_usuario_proprietario = ?");
 
-            updateComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement("UPDATE comentario SET titulo = ?, texto = ?, data_hora_ultima_atualizacao = LOCALTIMESTAMP WHERE id_comentario = ? AND id_usuario_proprietario = ?");
+            updateComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement(
+                    "UPDATE comentario "
+                    + "SET titulo = ?, texto = ?, data_hora_ultima_atualizacao = LOCALTIMESTAMP "
+                    + "WHERE id_comentario = ? AND id_usuario_proprietario = ?");
         } catch (SQLException ex) {
             Logger.getLogger(ComentarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -61,7 +84,7 @@ public class ComentarioDAO {
         }
         return instancia;
     }
-    
+
     public void closeConnection() {
         try {
             if (conexao != null && !conexao.isClosed()) {
@@ -107,6 +130,41 @@ public class ComentarioDAO {
                 Integer quantidadeAvaliacoesNegativas = (Integer) resultado.getInt("qtd_avaliacoes_negativas");
 
                 comentarios.add(new Comentario(idComentario, titulo, texto, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, idItem, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas));
+            }
+            return comentarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public ArrayList<Comentario> selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItem(Integer idUsuario, Integer idItem) {
+        ResultSet resultado = null;
+        ArrayList<Comentario> comentarios;
+        comentarios = new ArrayList<>();
+        try {
+            selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement.clearParameters();
+            selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement.setInt(1, idItem);
+            selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement.setInt(2, idUsuario);
+            resultado = selectAllComentariosNaoAvaliadosByIdUsuarioAndByIdItemStatement.executeQuery();
+
+            while (resultado.next()) {
+                Integer idComentario = (Integer) resultado.getInt("id_comentario");
+                String titulo = resultado.getString("titulo");
+                String texto = resultado.getString("texto");
+                String dataHoraCriacao = resultado.getString("data_hora_criacao");
+                String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
+                Integer quantidadeAvaliacoesPositivas = (Integer) resultado.getInt("qtd_avaliacoes_positivas");
+                Integer quantidadeAvaliacoesNegativas = (Integer) resultado.getInt("qtd_avaliacoes_negativas");
+
+                comentarios.add(new Comentario(idComentario, titulo, texto, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuario, idItem, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas));
             }
             return comentarios;
         } catch (SQLException ex) {
@@ -184,7 +242,7 @@ public class ComentarioDAO {
         }
         return false;
     }
-    
+
     public Integer selectCountComentariosByIdUsuario(Integer idUsuario) {
         ResultSet resultado = null;
         try {
