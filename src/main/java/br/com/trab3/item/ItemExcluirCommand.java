@@ -15,6 +15,9 @@ public class ItemExcluirCommand implements Comando {
 
         Integer idUsuario = Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
         ItemDAO.getInstance().deleteItemById(idItem, idUsuario);
-        response.sendRedirect("item-listar.html");
+        
+        String[] array;
+        array = request.getHeader("referer").split("/");
+        response.sendRedirect(array[array.length-1]);
     }
 }

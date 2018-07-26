@@ -4,6 +4,7 @@ import br.com.trab3.Comando;
 import br.com.trab3.DAOs.AvaliacaoItemDAO;
 import br.com.trab3.modelos.AvaliacaoItem;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,9 @@ public class AvaliacaoPositivaItemCommand implements Comando {
         } else {
             AvaliacaoItemDAO.getInstance().deleteAvaliacaoItemByIdItemAndIdUsuario(idItem, idUsuario);
         }
-
-        response.sendRedirect("item.html?id_item=" + idItem);
+        
+        String[] array;
+        array = request.getHeader("referer").split("/");
+        response.sendRedirect(array[array.length-1]);
     }
 }

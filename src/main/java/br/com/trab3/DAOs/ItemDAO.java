@@ -43,8 +43,7 @@ public class ItemDAO {
             selectItemByIdStatement = ItemDAO.conexao.prepareStatement(
                     "SELECT * "
                     + "FROM item \n"
-                    + "WHERE id_item NOT IN \n"
-                    + "(SELECT id_item_avaliado FROM avaliacao_item WHERE id_usuario_proprietario = ?)", Statement.RETURN_GENERATED_KEYS);
+                    + "WHERE id_item = ?", Statement.RETURN_GENERATED_KEYS);
             selectAllItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
                     "SELECT *, \n"
                     + "(SELECT count(*) FROM link as l WHERE l.id_item_relacionado = i.id_item) AS qtd_links,\n"

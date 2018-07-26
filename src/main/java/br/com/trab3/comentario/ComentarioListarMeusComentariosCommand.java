@@ -22,6 +22,7 @@ public class ComentarioListarMeusComentariosCommand implements Comando {
         
         request.setAttribute("itens", itens);
         request.setAttribute("id_usuario", idUsuario);
+        request.setAttribute("isMeusComentarios", true);
         dispacher.forward(request, response);
     }
 }

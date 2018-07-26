@@ -25,6 +25,8 @@ public class AvaliacaoNegativaComentarioCommand implements Comando {
             AvaliacaoComentarioDAO.getInstance().deleteAvaliacaoComentarioByIdComentarioAndIdUsuario(idComentario, idUsuario);
         }
 
-        response.sendRedirect("item.html?id_item=" + idItem);
+        String[] array;
+        array = request.getHeader("referer").split("/");
+        response.sendRedirect(array[array.length-1]);
     }
 }

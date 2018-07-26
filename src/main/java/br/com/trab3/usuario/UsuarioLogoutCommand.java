@@ -22,11 +22,6 @@ public class UsuarioLogoutCommand implements Comando {
             session.invalidate();
         }
         
-        AvaliacaoComentarioDAO.getInstance().closeConnection();
-        AvaliacaoItemDAO.getInstance().closeConnection();
-        ComentarioDAO.getInstance().closeConnection();
-        ItemDAO.getInstance().closeConnection();
-        LinkDAO.getInstance().closeConnection();
         UsuarioDAO.getInstance().closeConnection();
         response.sendRedirect("index.html");
     }

@@ -53,7 +53,6 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/comentario-excluir.html", "br.com.trab3.comentario.ComentarioExcluirCommand");
         rotas.put("/meus-comentarios.html", "br.com.trab3.comentario.ComentarioListarMeusComentariosCommand");
 
-        rotas.put("/avaliar.html", "br.com.trab3.avaliacao.AvaliarCommand");
         rotas.put("/avaliacao-positiva-item.html", "br.com.trab3.avaliacao.AvaliacaoPositivaItemCommand");
         rotas.put("/avaliacao-negativa-item.html", "br.com.trab3.avaliacao.AvaliacaoNegativaItemCommand");
         rotas.put("/avaliacao-positiva-comentario.html", "br.com.trab3.avaliacao.AvaliacaoPositivaComentarioCommand");

@@ -24,6 +24,8 @@ public class AvaliacaoNegativaItemCommand implements Comando {
             AvaliacaoItemDAO.getInstance().deleteAvaliacaoItemByIdItemAndIdUsuario(idItem, idUsuario);
         }
 
-        response.sendRedirect("item.html?id_item=" + idItem);
+        String[] array;
+        array = request.getHeader("referer").split("/");
+        response.sendRedirect(array[array.length-1]);
     }
 }

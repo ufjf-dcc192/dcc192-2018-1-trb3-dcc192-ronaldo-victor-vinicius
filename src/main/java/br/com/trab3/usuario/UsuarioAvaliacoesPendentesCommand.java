@@ -22,6 +22,7 @@ public class UsuarioAvaliacoesPendentesCommand implements Comando {
         
         request.setAttribute("itens", itens);
         request.setAttribute("id_usuario", idUsuario);
+        request.setAttribute("isAvaliacoesPendentes", true);
         dispacher.forward(request, response);
     }
 }

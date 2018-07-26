@@ -14,6 +14,9 @@
 <%@include file="/WEB-INF/jspf/cabecalho.jspf" %>
 
 <c:forEach var="item" items="${itens}">
+    <div class="alert alert-info" role="alert">
+        <h4>${item.getTitulo()}</h4>
+    </div>
     <div class="row">
         <div class="col-11">
             <nav>
@@ -49,11 +52,21 @@
                     <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </c:if>
+            <c:if test="${item.getIdUsuarioProprietario() != id_usuario}">
+                <div class="btn-group-vertical btn-block text-center">
+                    <a href="item.html?id_item=${item.getIdItem()}" class="btn btn-info" title="Ver Item"><i class="fas fa-clipboard-list"></i></a>
+                </div>
+            </c:if>
 
         </div>
     </div>
 
-    <h4>Comentários</h4>
+    <c:if test="${isAvaliacoesPendentes}">
+        <h4>Comentários a serem avaliados</h4>
+    </c:if>
+    <c:if test="${isMeusComentarios}">
+        <h4>Meu comentário</h4>
+    </c:if>
     ${request.setAttribute("comentarios", item.getComentarios())}
     <%@include file="/WEB-INF/jspf/comentario.jspf" %>
 

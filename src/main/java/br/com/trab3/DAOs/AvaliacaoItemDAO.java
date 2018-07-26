@@ -32,24 +32,43 @@ public class AvaliacaoItemDAO {
     public AvaliacaoItemDAO() {
         try {
             AvaliacaoItemDAO.conexao = Conexao.getInstance();
-            insertAvaliacaoItemStatement = AvaliacaoItemDAO.conexao.prepareStatement("INSERT INTO avaliacao_item(avaliacao, id_item_avaliado, id_usuario_proprietario) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            insertAvaliacaoItemStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "INSERT INTO avaliacao_item(avaliacao, id_item_avaliado, id_usuario_proprietario) "
+                    + "VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-            selectAllAvaliacoesByIdItemStatement = AvaliacaoItemDAO.conexao.prepareStatement("SELECT * FROM avaliacao_item WHERE id_item_avaliado = ?", Statement.RETURN_GENERATED_KEYS);
-            selectAvaliacaoByIdItemAndByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("SELECT * FROM avaliacao_item WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
-            selectCountAvaliacoesPositivasItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_avaliacoes_positivas FROM avaliacao_item WHERE id_usuario_proprietario = ? AND avaliacao > 0", Statement.RETURN_GENERATED_KEYS);
-            selectCountAvaliacoesNegativasItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_avaliacoes_negativas FROM avaliacao_item WHERE id_usuario_proprietario = ? AND avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
+            selectAllAvaliacoesByIdItemStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "SELECT * "
+                    + "FROM avaliacao_item "
+                    + "WHERE id_item_avaliado = ?", Statement.RETURN_GENERATED_KEYS);
+            selectAvaliacaoByIdItemAndByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "SELECT * "
+                    + "FROM avaliacao_item "
+                    + "WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectCountAvaliacoesPositivasItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "SELECT COUNT(*) AS qtd_avaliacoes_positivas "
+                    + "FROM avaliacao_item "
+                    + "WHERE id_usuario_proprietario = ? AND avaliacao > 0", Statement.RETURN_GENERATED_KEYS);
+            selectCountAvaliacoesNegativasItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "SELECT COUNT(*) AS qtd_avaliacoes_negativas "
+                    + "FROM avaliacao_item "
+                    + "WHERE id_usuario_proprietario = ? AND avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
             selectCountAvaliacoesPositivasMeusItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
                     "SELECT count(*) AS qtd_avaliacoes_positivas \n"
-                    + "FROM avaliacao_comentario as ac1, comentario as co\n"
-                    + "WHERE co.id_usuario_proprietario = ? AND ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao > 0", Statement.RETURN_GENERATED_KEYS);
+                    + "FROM avaliacao_item as ai, item as i\n"
+                    + "WHERE i.id_usuario_proprietario = ? AND ai.id_item_avaliado = i.id_item AND ai.avaliacao > 0", Statement.RETURN_GENERATED_KEYS);
             selectCountAvaliacoesNegativasMeusItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
                     "SELECT count(*) AS qtd_avaliacoes_negativas \n"
-                    + "FROM avaliacao_comentario as ac1, comentario as co\n"
-                    + "WHERE co.id_usuario_proprietario = ? AND ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
+                    + "FROM avaliacao_item as ai, item as i\n"
+                    + "WHERE i.id_usuario_proprietario = ? AND ai.id_item_avaliado = i.id_item AND ai.avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
 
-            updateAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("UPDATE avaliacao_item SET avaliacao = ? WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            updateAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "UPDATE avaliacao_item "
+                    + "SET avaliacao = ? "
+                    + "WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
-            deleteAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("DELETE FROM avaliacao_item WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            deleteAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
+                    "DELETE FROM avaliacao_item "
+                    + "WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException ex) {
             Logger.getLogger(AvaliacaoItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

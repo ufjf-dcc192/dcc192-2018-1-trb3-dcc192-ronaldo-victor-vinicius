@@ -57,8 +57,8 @@ public class ComentarioDAO {
                     + "(SELECT count(*) FROM avaliacao_comentario as ac1 WHERE ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao > 0) AS qtd_avaliacoes_positivas,\n"
                     + "(SELECT count(*) FROM avaliacao_comentario as ac2 WHERE ac2.id_comentario_avaliado = co.id_comentario AND ac2.avaliacao < 0) AS qtd_avaliacoes_negativas\n"
                     + "FROM comentario AS co\n"
-                    + "WHERE id_item_comentado = ? AND id_comentario NOT IN \n"
-                    + "(SELECT id_comentario_avaliado FROM avaliacao_comentario WHERE id_usuario_proprietario = ?)) AS pn\n"
+                    + "WHERE co.id_item_comentado = ? AND co.id_comentario NOT IN \n"
+                    + "(SELECT ac3.id_comentario_avaliado FROM avaliacao_comentario AS ac3 WHERE ac3.id_usuario_proprietario = ?)) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
 
             deleteComentarioByIdComentarioStatement = ComentarioDAO.conexao.prepareStatement(
@@ -163,8 +163,9 @@ public class ComentarioDAO {
                 String dataHoraUltimaAtualizacao = resultado.getString("data_hora_ultima_atualizacao");
                 Integer quantidadeAvaliacoesPositivas = (Integer) resultado.getInt("qtd_avaliacoes_positivas");
                 Integer quantidadeAvaliacoesNegativas = (Integer) resultado.getInt("qtd_avaliacoes_negativas");
+                Integer idUsuarioProprietario = (Integer) resultado.getInt("id_usuario_proprietario");
 
-                comentarios.add(new Comentario(idComentario, titulo, texto, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuario, idItem, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas));
+                comentarios.add(new Comentario(idComentario, titulo, texto, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, idItem, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas));
             }
             return comentarios;
         } catch (SQLException ex) {

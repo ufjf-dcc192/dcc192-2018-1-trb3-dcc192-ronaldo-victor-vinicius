@@ -1,7 +1,6 @@
 package br.com.trab3.DAOs;
 
 import br.com.trab3.modelos.Usuario;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +19,13 @@ public class UsuarioDAO {
         try {
             conexao = Conexao.getInstance();
 
-            insertStatement = UsuarioDAO.conexao.prepareStatement("INSERT INTO usuario(nome_completo, email, login, senha) VALUES(?, ?, ?, ?)");
-            loginStatement = UsuarioDAO.conexao.prepareStatement("SELECT * FROM usuario WHERE login = ? AND senha = ?");
+            insertStatement = UsuarioDAO.conexao.prepareStatement(
+                    "INSERT INTO usuario(nome_completo, email, login, senha) "
+                    + "VALUES(?, ?, ?, ?)");
+            loginStatement = UsuarioDAO.conexao.prepareStatement(
+                    "SELECT * "
+                    + "FROM usuario "
+                    + "WHERE login = ? AND senha = ?");
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,7 +41,7 @@ public class UsuarioDAO {
         }
         return instancia;
     }
-    
+
     public void closeConnection() {
         try {
             if (conexao != null && !conexao.isClosed()) {

@@ -16,6 +16,9 @@ public class ComentarioExcluirCommand implements Comando {
         Integer idUsuario = Integer.parseInt(request.getSession().getAttribute("id_usuario").toString());
 
         ComentarioDAO.getInstance().deleteComentarioByIdComentario(idComentario, idUsuario);
-        response.sendRedirect("item.html?id_item=" + idItem);
+        
+        String[] array;
+        array = request.getHeader("referer").split("/");
+        response.sendRedirect(array[array.length-1]);
     }
 }
