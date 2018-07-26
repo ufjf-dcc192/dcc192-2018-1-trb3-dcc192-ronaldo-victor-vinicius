@@ -1,20 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="br.com.trab3.modelos.Comentario" %>
 
-<c:forEach var="comentario" items="${comentarios}">
-    <div class="row m-1">
-        <div class="card col-11">
-            <div class="card-body">
-                <h5 class="card-title">${comentario.getTitulo()}</h5>
-                <p class="card-text">${comentario.getTexto()}</p>
+<c:forEach var="comentario" items="${comentarios == null ? item.getComentarios() : comentarios}">
+    <div class="row">
+        <div class="col-11">
+            <div class="card m-2 p-1 ${comentario.getIdUsuarioProprietario() == id_usuario ? "bg-light" : ""}">
+                <div class="card-body">
+                    <h5 class="card-title">${comentario.getTitulo()}</h5>
+                    <p class="card-text">${comentario.getTexto()}</p>
 
-                <hr />
-                <div class="row">
-                    <small class="col-3 text-muted">Criado em: <br />${comentario.getDataHoraCriacao()}</small>
-                    <small class="col-3 text-muted">Atualizado em: <br />${comentario.getDataHoraUltimaAtualizacao()}</small>
-                    <small class="col-2 text-muted">ID_COMENTARIO: ${comentario.getIdComentario()}</small>
-                    <small class="col-2 text-muted">ID_ITEM_COMENTADO: ${comentario.getIdItemComentado()}</small>
-                    <small class="col-2 text-muted">ID_USUARIO: ${comentario.getIdUsuarioProprietario()}</small>
+                    <hr />
+                    <div class="row">
+                        <small class="col-3 text-muted">Criado em: <br />${comentario.getDataHoraCriacao()}</small>
+                        <small class="col-3 text-muted">Atualizado em: <br />${comentario.getDataHoraUltimaAtualizacao()}</small>
+                        <small class="col-2 text-muted">ID_COMENTARIO: ${comentario.getIdComentario()}</small>
+                        <small class="col-2 text-muted">ID_ITEM_COMENTADO: ${comentario.getIdItemComentado()}</small>
+                        <small class="col-2 text-muted">ID_USUARIO: ${comentario.getIdUsuarioProprietario()}</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,7 +31,6 @@
                     <button onclick="confirm('Clique em OK para EXCLUIR o comentário ${comentario.getTitulo()}.') ? (location.href = 'comentario-excluir.html?id_comentario=${comentario.getIdComentario()}&id_item=${comentario.getIdItemComentado()}') : false" class="btn btn-danger" title="Excluir Comentário"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </c:if>
-
         </div>
     </div>
 </c:forEach>

@@ -35,11 +35,10 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/usuario-dados.html", "br.com.trab3.usuario.UsuarioDadosCommand");
         rotas.put("/login.html", "br.com.trab3.usuario.UsuarioLoginCommand");
         rotas.put("/logout.html", "br.com.trab3.usuario.UsuarioLogoutCommand");
-        rotas.put("/meus-comentarios.html", "br.com.trab3.usuario.UsuarioLMeusComentariosCommand");
-        rotas.put("/a-avaliar.html", "br.com.trab3.usuario.UsuarioAvaliacoesPendentesCommand");
         rotas.put("/trolls.html", "br.com.trab3.usuario.UsuariosTrollsCommand");
         rotas.put("/curadores.html", "br.com.trab3.usuario.UsuariosCuradoresCommand");
         rotas.put("/visao-geral-do-usuario.html", "br.com.trab3.usuario.UsuarioVisaoGeralCommand");
+        rotas.put("/a-avaliar.html", "br.com.trab3.usuario.UsuarioAvaliacoesPendentesCommand");
 
         rotas.put("/item-novo.html", "br.com.trab3.item.ItemNovoCommand");
         rotas.put("/item-editar.html", "br.com.trab3.item.ItemEditarCommand");
@@ -52,6 +51,7 @@ public class PrincipalServlet extends HttpServlet {
         rotas.put("/comentar.html", "br.com.trab3.comentario.ComentarioNovoCommand");
         rotas.put("/comentario-editar.html", "br.com.trab3.comentario.ComentarioEditarCommand");
         rotas.put("/comentario-excluir.html", "br.com.trab3.comentario.ComentarioExcluirCommand");
+        rotas.put("/meus-comentarios.html", "br.com.trab3.comentario.ComentarioListarMeusComentariosCommand");
 
         rotas.put("/avaliar.html", "br.com.trab3.avaliacao.AvaliarCommand");
         rotas.put("/avaliacao-positiva-item.html", "br.com.trab3.avaliacao.AvaliacaoPositivaItemCommand");

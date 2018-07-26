@@ -1,5 +1,6 @@
 package br.com.trab3.DAOs;
 
+import br.com.trab3.modelos.Comentario;
 import br.com.trab3.modelos.Item;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ public class ItemDAO {
     private PreparedStatement selectAllItensOrderByQtdTotalDeAvaliacoesStatement;
     private PreparedStatement selectAllItensOrderByMelhorAvaliacaoStatement;
     private PreparedStatement selectCountItensByIdUsuarioStatement;
+    private PreparedStatement selectAllItensComentadosByIdUsuarioStatement;
 
     private PreparedStatement deleteItemByIdStatement;
 
@@ -78,6 +80,21 @@ public class ItemDAO {
                     + "FROM item as i) AS pn\n"
                     + "ORDER BY diferenca_qtd_avaliacoes DESC, qtd_total_avaliacoes DESC", Statement.RETURN_GENERATED_KEYS);
             selectCountItensByIdUsuarioStatement = ItemDAO.conexao.prepareStatement("SELECT COUNT(*) AS qtd_itens FROM item WHERE id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
+            selectAllItensComentadosByIdUsuarioStatement = ItemDAO.conexao.prepareStatement(
+                    "SELECT \n"
+                    + "i.id_item AS item_id_item, \n"
+                    + "i.titulo AS item_titulo, \n"
+                    + "i.descricao AS item_descricao, \n"
+                    + "i.data_hora_criacao AS item_data_hora_criacao,\n"
+                    + "i.data_hora_ultima_atualizacao AS item_data_hora_ultima_atualizacao,\n"
+                    + "i.id_usuario_proprietario AS item_id_usuario_proprietario,\n"
+                    + "co.id_comentario AS comentario_id_comentario, \n"
+                    + "co.titulo AS comentario_titulo, \n"
+                    + "co.texto AS comentario_texto,\n"
+                    + "co.data_hora_criacao AS comentario_data_hora_criacao,\n"
+                    + "co.data_hora_ultima_atualizacao AS comentario_data_hora_ultima_atualizacao,\n"
+                    + "co.id_usuario_proprietario AS comentario_id_usuario_proprietario\n"
+                    + "FROM item AS i, comentario AS co WHERE i.id_item = co.id_item_comentado AND co.id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 
             deleteItemByIdStatement = ItemDAO.conexao.prepareStatement(
                     "DELETE FROM avaliacao_item WHERE id_item_avaliado = ?; "
@@ -102,7 +119,7 @@ public class ItemDAO {
         }
         return instancia;
     }
-    
+
     public void closeConnection() {
         try {
             if (conexao != null && !conexao.isClosed()) {
@@ -168,7 +185,7 @@ public class ItemDAO {
                 Integer quantidadeComentarios = resultado.getInt("qtd_comentarios");
                 Integer quantidadeAvaliacoesPositivas = resultado.getInt("qtd_avaliacoes_positivas");
                 Integer quantidadeAvaliacoesNegativas = resultado.getInt("qtd_avaliacoes_negativas");
-                
+
                 Item item = new Item(idItem, titulo, descricao, dataHoraCriacao, dataHoraUltimaAtualizacao, idUsuarioProprietario, quantidadeLinks, quantidadeComentarios, quantidadeAvaliacoesPositivas, quantidadeAvaliacoesNegativas);
                 itens.add(item);
             }
@@ -185,14 +202,14 @@ public class ItemDAO {
         }
         return null;
     }
-    
+
     public Integer selectCountItensByIdUsuario(Integer idUsuarioProprietario) {
         ResultSet resultado = null;
         try {
             selectCountItensByIdUsuarioStatement.clearParameters();
             selectCountItensByIdUsuarioStatement.setInt(1, idUsuarioProprietario);
             resultado = selectCountItensByIdUsuarioStatement.executeQuery();
-            
+
             Integer qtdItens = 0;
             if (resultado.next()) {
                 qtdItens = (Integer) resultado.getInt("qtd_itens");
@@ -418,5 +435,50 @@ public class ItemDAO {
             Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public ArrayList<Item> selectAllItensComentadosByIdUsuario(Integer idUsuario) {
+        ResultSet resultado = null;
+        ArrayList<Item> itens;
+        itens = new ArrayList<>();
+        try {
+
+            selectAllItensComentadosByIdUsuarioStatement.clearParameters();
+            selectAllItensComentadosByIdUsuarioStatement.setInt(1, (int) idUsuario);
+            resultado = selectAllItensComentadosByIdUsuarioStatement.executeQuery();
+
+            while (resultado.next()) {
+                Integer item_id_item = (Integer) Integer.parseInt(resultado.getString("item_id_item"));
+                String item_titulo = resultado.getString("item_titulo");
+                String item_descricao = resultado.getString("item_descricao");
+                String item_data_hora_criacao = resultado.getString("item_data_hora_criacao");
+                String item_data_hora_ultima_atualizacao = resultado.getString("item_data_hora_ultima_atualizacao");
+                Integer item_id_usuario_proprietario = (Integer) Integer.parseInt(resultado.getString("item_id_usuario_proprietario"));
+                
+                Integer comentario_id_comentario = (Integer) Integer.parseInt(resultado.getString("comentario_id_comentario"));
+                String comentario_titulo = resultado.getString("comentario_titulo");
+                String comentario_texto = resultado.getString("comentario_texto");
+                String comentario_data_hora_criacao = resultado.getString("comentario_data_hora_criacao");
+                String comentario_data_hora_ultima_atualizacao = resultado.getString("comentario_data_hora_ultima_atualizacao");
+                Integer comentario_id_usuario_proprietario = (Integer) Integer.parseInt(resultado.getString("comentario_id_usuario_proprietario"));
+                
+                Item item = new Item(item_id_item, item_titulo, item_descricao, item_data_hora_criacao, item_data_hora_ultima_atualizacao, item_id_usuario_proprietario, LinkDAO.getInstance().selectAllLinksByIdItem(item_id_item), new ArrayList<>(), AvaliacaoItemDAO.getInstance().selectAllAvaliacoesByIdItem(item_id_item));
+                Comentario comentario = new Comentario(comentario_id_comentario, comentario_titulo, comentario_texto, comentario_data_hora_criacao, comentario_data_hora_ultima_atualizacao, comentario_id_usuario_proprietario, item_id_item, AvaliacaoComentarioDAO.getInstance().selectAllAvaliacoesByIdComentario(comentario_id_comentario));
+                item.getComentarios().add(comentario);
+                
+                itens.add(item);
+            }
+            return itens;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+            } catch (SQLException ex) {
+            }
+        }
+        return new ArrayList<>();
     }
 }

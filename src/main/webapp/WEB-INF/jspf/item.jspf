@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="br.com.trab3.modelos.Item" %>
 
-<div class="card p-1">
+<div class="card p-2 ${item.getIdUsuarioProprietario() == id_usuario ? "bg-light" : ""}">
     <div class="card-body">
         <h5 class="card-title">${item.getTitulo()}</h5>
         <h6 class="card-subtitle text-muted small mb-3">Avaliação final: ${item.calcularSomatorioDeAvaliacoes()}</h6>

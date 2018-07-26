@@ -45,7 +45,7 @@ public class AvaliacaoItemDAO {
             selectCountAvaliacoesNegativasMeusItensByIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement(
                     "SELECT count(*) AS qtd_avaliacoes_negativas \n"
                     + "FROM avaliacao_comentario as ac1, comentario as co\n"
-                    + "WHERE co.id_usuario_proprietario = 8 AND ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
+                    + "WHERE co.id_usuario_proprietario = ? AND ac1.id_comentario_avaliado = co.id_comentario AND ac1.avaliacao < 0", Statement.RETURN_GENERATED_KEYS);
 
             updateAvaliacaoItemByIdItemAndIdUsuarioStatement = AvaliacaoItemDAO.conexao.prepareStatement("UPDATE avaliacao_item SET avaliacao = ? WHERE id_item_avaliado = ? AND id_usuario_proprietario = ?", Statement.RETURN_GENERATED_KEYS);
 

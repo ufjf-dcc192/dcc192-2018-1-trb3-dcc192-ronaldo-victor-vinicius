@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="${isVertical ? "btn-group-vertical" : "btn-group"} btn-block">
+<div class="${isVertical ? "btn-group-vertical mt-1" : "btn-group"} btn-block">
     <a href="avaliacao-positiva-item.html?id_item=${item.getIdItem()}" class="btn btn-success ${isDisabled ? "disabled" : ""}" title="Avaliações Positivas"><i class="fas fa-angle-up"></i> &nbsp; ${item.getQuantidadeAvaliacoesPositivas()}</a>
     <a href="avaliacao-negativa-item.html?id_item=${item.getIdItem()}" href="" class="btn btn-danger ${isDisabled ? "disabled" : ""}" title="Avaliações Negativas"><i class="fas fa-angle-down"></i> &nbsp; ${item.getQuantidadeAvaliacoesNegativas()}</a>
 </div>

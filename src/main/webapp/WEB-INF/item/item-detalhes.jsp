@@ -17,8 +17,8 @@
     <div class="col-11">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-descricao-tab" data-toggle="tab" href="#nav-descricao" role="tab" aria-controls="nav-descricao" aria-selected="true">Detalhes</a>
-                <a class="nav-item nav-link" id="nav-links-tab" data-toggle="tab" href="#nav-links" role="tab" aria-controls="nav-links" aria-selected="false">Links</a>
+                <a class="nav-item nav-link active" id="nav-descricao-tab" data-toggle="tab" href="#nav-descricao" role="tab" aria-controls="nav-descricao" aria-selected="true">Detalhes do Item</a>
+                <a class="nav-item nav-link" id="nav-links-tab" data-toggle="tab" href="#nav-links" role="tab" aria-controls="nav-links" aria-selected="false">Links Relacionados</a>
             </div>
         </nav>
         <div class="tab-content p-1" id="nav-tabContent">
@@ -35,6 +35,8 @@
         </div>
     </div>
     <div class="col-1">
+        <br />
+        <br />
         <% request.setAttribute("isVertical", true);
             request.setAttribute("isDisabled", false);%>
         <%@include file="/WEB-INF/jspf/avaliacao-item.jspf" %>
@@ -44,7 +46,7 @@
                 <button onclick="confirm('Clique em OK para EXCLUIR o item ${item.getTitulo()}.') ? (location.href = 'item-excluir.html?id_item=${item.getIdItem()}') : false" class="btn btn-danger" title="Excluir Item"><i class="fas fa-trash-alt"></i></button>
             </div>
         </c:if>
-        
+
     </div>
 </div>
 

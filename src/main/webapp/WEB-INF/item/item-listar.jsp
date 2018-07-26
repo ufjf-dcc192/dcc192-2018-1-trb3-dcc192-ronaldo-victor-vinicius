@@ -22,7 +22,8 @@
         <tr>
             <th scope="col" class="text-center">id_item</th>
             <th scope="col" class="text-center">Título</th>
-            <th scope="col" class="text-center">Descrição</th>
+            <th scope="col" class="text-center">Data/hora<br />criação</th>
+            <th scope="col" class="text-center">Data/hora<br />atualização</th>
             <th scope="col" class="text-center">Links</th>
             <th scope="col" class="text-center">Comentários</th>
             <th scope="col" class="text-center">Avaliações</th>
@@ -34,7 +35,8 @@
             <tr>
                 <td class="text-center">${item.getIdItem()}</td>
                 <td>${item.getTitulo()}</td>
-                <td>${item.getDescricao()}</td>
+                <td class="text-center">${item.getDataHoraCriacao()}</td>
+                <td class="text-center">${item.getDataHoraUltimaAtualizacao()}</td>
                 <td class="text-center">${item.getQuantidadeLinks()}</td>
                 <td class="text-center">${item.getQuantidadeComentarios()}</td>
                 <td class="text-center">
