@@ -7,12 +7,20 @@ public class Usuario {
     private String login;
     private String email;
     private String senha;
+    private Integer qtdAvaliacoesPositivas;
+    private Integer qtdAvaliacoesNegativas;
+    private Integer qtdComentarios;
+    private Integer qtdComentariosAvaliadosNegativamente;
 
     public Usuario(String nome, String login, String email, String senha) {
         this.nome = nome;
         this.login = login;
         this.email = email;
         this.senha = senha;
+        this.qtdAvaliacoesPositivas = 0;
+        this.qtdAvaliacoesNegativas = 0;
+        this.qtdComentarios = 0;
+        this.qtdComentariosAvaliadosNegativamente = 0;
     }
 
     public Usuario(Integer id, String nome, String login, String email, String senha) {
@@ -21,6 +29,10 @@ public class Usuario {
         this.login = login;
         this.email = email;
         this.senha = senha;
+        this.qtdAvaliacoesPositivas = 0;
+        this.qtdAvaliacoesNegativas = 0;
+        this.qtdComentarios = 0;
+        this.qtdComentariosAvaliadosNegativamente = 0;
     }
 
     public Integer getId() {
@@ -63,4 +75,35 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public Integer getQtdAvaliacoesPositivas() {
+        return qtdAvaliacoesPositivas;
+    }
+
+    public void setQtdAvaliacoesPositivas(Integer qtdAvaliacoesPositivas) {
+        this.qtdAvaliacoesPositivas = qtdAvaliacoesPositivas;
+    }
+
+    public Integer getQtdAvaliacoesNegativas() {
+        return qtdAvaliacoesNegativas;
+    }
+
+    public void setQtdAvaliacoesNegativas(Integer qtdAvaliacoesNegativas) {
+        this.qtdAvaliacoesNegativas = qtdAvaliacoesNegativas;
+    }
+
+    public Integer getQtdComentarios() {
+        return qtdComentarios;
+    }
+
+    public void setQtdComentarios(Integer qtdComentarios) {
+        this.qtdComentarios = qtdComentarios;
+    }
+
+    public Integer getQtdComentariosAvaliadosNegativamente() {
+        return qtdComentariosAvaliadosNegativamente;
+    }
+
+    public void setQtdComentariosAvaliadosNegativamente(Integer qtdComentariosAvaliadosNegativamente) {
+        this.qtdComentariosAvaliadosNegativamente = qtdComentariosAvaliadosNegativamente;
+    }
 }

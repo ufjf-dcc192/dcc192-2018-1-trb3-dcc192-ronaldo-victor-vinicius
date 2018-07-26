@@ -20,23 +20,6 @@
 
 <br />
 
-<div class="alert alert-danger" role="alert">
-    <h4>TODO LIST</h4>
-    <ul>
-        <li>
-            Preencher o arquivo banco.sql com o script que apaga e gera as tabelas.
-        </li>
-        <li>
-            O sistema deve listar todos os usuários que obtiverem mais de 50% de seus comentários
-            avaliados negativamente através do ponto: /trolls.html​.
-        </li>
-        <li>
-            O sistema deve listar todos os usuários, ordenados pela soma total da avaliação de seus
-            comentários: /curadores.html
-        </li>
-    </ul>
-</div>
-
 <div class="alert alert-warning" role="alert">
     <h4>Sobre a AVALIAÇÃO de itens e de comentários</h4>
     <ul>
